@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI Komplettlösung — Ihr KI-Telefonassistent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --bg: #ffffff; --bg2: #fafafa; --bg3: #f4f4f5; --border: #e4e4e7; --border2: #d4d4d8; --text: #09090b; --text2: #52525b; --text3: #a1a1aa; --accent: #18181b; --purple: #7c3aed; --purple2: #a78bfa; --purple-bg: #f5f3ff; --green: #16a34a; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Geist', -apple-system, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; font-size: 15px; line-height: 1.6; }
+body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.4; pointer-events: none; z-index: 0; }
+nav { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; z-index: 100; }
+.nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-logo-icon { width: 28px; height: 28px; background: var(--text); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.nav-logo-icon svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; }
+.nav-logo-text { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 400; color: var(--text2); text-decoration: none; padding: 6px 12px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+.nav-links a:hover { background: var(--bg3); color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.btn-sm { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 8px; text-decoration: none; transition: all 0.15s; }
+.btn-dark { color: #fff; background: var(--text); border: 1px solid var(--text); }
+.btn-dark:hover { background: #27272a; }
+.hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; z-index: 1; }
+.hero::before { content: ''; position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+.hero-content { position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 9999px; padding: 5px 14px 5px 6px; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 32px; opacity: 0; transform: translateY(8px); animation: up 0.5s ease forwards 0.1s; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.badge-pill { background: var(--purple); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 9999px; }
+.hero-title { font-size: clamp(40px, 6vw, 72px); font-weight: 600; line-height: 1.08; letter-spacing: -0.04em; color: var(--text); max-width: 820px; margin: 0 auto 20px; opacity: 0; transform: translateY(12px); animation: up 0.6s ease forwards 0.2s; }
+.hero-title span { background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-sub { font-size: 17px; font-weight: 400; line-height: 1.65; color: var(--text2); max-width: 520px; margin: 0 auto 40px; opacity: 0; transform: translateY(12px); animation: up 0.6s ease forwards 0.32s; }
+.hero-actions { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 64px; opacity: 0; transform: translateY(12px); animation: up 0.6s ease forwards 0.44s; }
+.btn-lg { font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
+.btn-primary-lg { background: var(--text); color: #fff; border: 1px solid var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08); }
+.btn-primary-lg:hover { background: #27272a; transform: translateY(-1px); }
+.btn-secondary-lg { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary-lg:hover { background: var(--bg3); }
+.hero-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; max-width: 680px; margin: 0 auto; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06); opacity: 0; transform: translateY(16px); animation: up 0.7s ease forwards 0.56s; }
+.card-header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+.card-title-bar { flex: 1; text-align: center; font-size: 12px; color: var(--text3); }
+.card-body { padding: 24px; }
+.chat-row { display: flex; gap: 10px; margin-bottom: 16px; align-items: flex-start; }
+.chat-row:last-child { margin-bottom: 0; }
+.avatar { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+.avatar-ai { background: var(--text); color: #fff; }
+.avatar-user { background: var(--purple-bg); color: var(--purple); border: 1px solid #ddd6fe; }
+.bubble { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.55; color: var(--text); max-width: 480px; }
+.bubble-user { background: var(--purple-bg); border-color: #ddd6fe; }
+.bubble-tag { display: inline-flex; align-items: center; gap: 4px; background: #dcfce7; color: var(--green); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; margin-top: 6px; }
+.stats { position: relative; z-index: 1; padding: 0 24px 80px; }
+.stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.stat-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px 28px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: box-shadow 0.2s, border-color 0.2s; }
+.stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: var(--border2); }
+.stat-value { font-size: 40px; font-weight: 600; letter-spacing: -0.04em; color: var(--text); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 13px; color: var(--text2); }
+.features { position: relative; z-index: 1; padding: 80px 24px; border-top: 1px solid var(--border); }
+.features-inner { max-width: 1000px; margin: 0 auto; }
+.section-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--purple-bg); border: 1px solid #ddd6fe; border-radius: 9999px; padding: 4px 12px; font-size: 12px; font-weight: 500; color: var(--purple); margin-bottom: 20px; }
+.section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 600; letter-spacing: -0.03em; color: var(--text); line-height: 1.15; margin-bottom: 12px; }
+.section-sub { font-size: 16px; color: var(--text2); margin-bottom: 48px; max-width: 480px; }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.feat { background: var(--bg); padding: 32px 28px; transition: background 0.15s; }
+.feat:hover { background: var(--bg2); }
+.feat-icon { width: 36px; height: 36px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.feat-icon svg { width: 16px; height: 16px; stroke: var(--text); fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.feat-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em; }
+.feat-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
+.how { position: relative; z-index: 1; padding: 80px 24px; border-top: 1px solid var(--border); background: var(--bg2); }
+.how-inner { max-width: 1000px; margin: 0 auto; }
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+.how-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; position: relative; overflow: hidden; transition: box-shadow 0.2s; }
+.how-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+.how-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--purple), var(--purple2)); }
+.how-num { font-size: 12px; font-weight: 600; color: var(--purple); letter-spacing: 0.06em; margin-bottom: 16px; }
+.how-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; letter-spacing: -0.02em; }
+.how-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
+.cta { position: relative; z-index: 1; padding: 120px 24px; text-align: center; border-top: 1px solid var(--border); overflow: hidden; }
+.cta::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, rgba(124,58,237,0.08) 0%, transparent 70%); pointer-events: none; }
+.cta-content { position: relative; z-index: 1; }
+.cta-title { font-size: clamp(32px, 5vw, 56px); font-weight: 600; letter-spacing: -0.04em; color: var(--text); line-height: 1.1; margin-bottom: 16px; max-width: 640px; margin-left: auto; margin-right: auto; }
+.cta-title span { background: linear-gradient(135deg, #7c3aed, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cta-sub { font-size: 16px; color: var(--text2); margin-bottom: 36px; }
+.cta-meta { margin-top: 20px; font-size: 12px; color: var(--text3); display: flex; align-items: center; justify-content: center; gap: 20px; }
+.cta-meta-item { display: flex; align-items: center; gap: 5px; }
+.cta-meta-item svg { width: 13px; height: 13px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; }
+footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; background: var(--bg); }
+.footer-logo { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.footer-links { display: flex; gap: 20px; list-style: none; }
+.footer-links a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.15s; }
+.footer-links a:hover { color: var(--text2); }
+.footer-copy { font-size: 12px; color: var(--text3); }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@keyframes up { to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .stats-inner { grid-template-columns: 1fr 1fr; gap: 8px; } .features-grid { grid-template-columns: 1fr; } .how-grid { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 16px; } .footer-links { display: none; } .cta-meta { flex-direction: column; gap: 8px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.06 1.2 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14z"/></svg>
+    </div>
+    <span class="nav-logo-text">KI Komplettlösung</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ablauf">Ablauf</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#kontakt" class="btn-sm btn-dark">Demo anfragen</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-pill">NEU</span>
+      KI-Telefonassistent für deutsche Unternehmen
+    </div>
+    <h1 class="hero-title">Kein Anruf mehr verpasst.<br><span>Kein Termin mehr verloren.</span></h1>
+    <p class="hero-sub">Ihr intelligenter KI-Assistent nimmt jeden Anruf an, bucht Termine und beantwortet Fragen — automatisch, rund um die Uhr, auf Deutsch.</p>
+    <div class="hero-actions">
+      <a href="#kontakt" class="btn-lg btn-primary-lg">Kostenlos testen →</a>
+      <a href="#ablauf" class="btn-lg btn-secondary-lg">So funktioniert's</a>
+    </div>
+    <div class="hero-card">
+      <div class="card-header">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <div class="card-title-bar">KI Komplettlösung · Assistent aktiv</div>
+      </div>
+      <div class="card-body">
+        <div class="chat-row">
+          <div class="avatar avatar-user">K</div>
+          <div class="bubble bubble-user">Hallo, ich würde gerne einen Termin für nächste Woche buchen.</div>
+        </div>
+        <div class="chat-row">
+          <div class="avatar avatar-ai">KI</div>
+          <div class="bubble bubble-ai">Guten Tag! Sehr gerne. Ich habe am Dienstag um 10:00 Uhr und am Donnerstag um 14:00 Uhr freie Slots. Welcher Termin passt Ihnen besser?
+            <div class="bubble-tag"><svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Kalender geprüft · Live-Verfügbarkeit</div>
+          </div>
+        </div>
+        <div class="chat-row">
+          <div class="avatar avatar-user">K</div>
+          <div class="bubble bubble-user">Donnerstag 14 Uhr passt perfekt. Ich bin Thomas Müller, 0171 1234567.</div>
+        </div>
+        <div class="chat-row">
+          <div class="avatar avatar-ai">KI</div>
+          <div class="bubble bubble-ai">Perfekt, Herr Müller! Ihr Termin am Donnerstag, 14:00 Uhr ist gebucht. Sie erhalten gleich eine SMS-Bestätigung.
+            <div class="bubble-tag"><svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Termin gebucht · SMS gesendet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="stats">
+  <div class="stats-inner reveal">
+    <div class="stat-card"><div class="stat-value">24/7</div><div class="stat-label">Erreichbar — auch nachts, Wochenende und Feiertage</div></div>
+    <div class="stat-card"><div class="stat-value">0 s</div><div class="stat-label">Wartezeit — sofortige Annahme jedes Anrufs</div></div>
+    <div class="stat-card"><div class="stat-value">≥70%</div><div class="stat-label">Buchungsrate — direkt am Telefon, vollautomatisch</div></div>
+  </div>
+</section>
+<section class="features" id="leistungen">
+  <div class="features-inner">
+    <div class="section-tag reveal">Leistungen</div>
+    <h2 class="section-title reveal">Alles was Ihr Telefon können sollte.</h2>
+    <p class="section-sub reveal">Vollautomatisch. DSGVO-konform. Live in 7 Tagen.</p>
+    <div class="features-grid reveal">
+      <div class="feat"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><h3 class="feat-title">Automatische Terminbuchung</h3><p class="feat-desc">Bucht Termine direkt in Ihren Kalender — nur bestätigte Zeiten, keine Fehler.</p></div>
+      <div class="feat"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg></div><h3 class="feat-title">FAQ & Sofortantworten</h3><p class="feat-desc">Beantwortet häufige Fragen präzise — auf Basis Ihrer Daten, ohne zu improvisieren.</p></div>
+      <div class="feat"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 8l4 4-4 4M3 12h18"/></svg></div><h3 class="feat-title">Intelligente Weiterleitung</h3><p class="feat-desc">Erkennt Sonderfälle und leitet gezielt weiter — an den richtigen Mitarbeiter.</p></div>
+      <div class="feat"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div><h3 class="feat-title">SMS & E-Mail</h3><p class="feat-desc">Automatische Bestätigungen und Erinnerungen — reduziert No-Shows um 40%.</p></div>
+      <div class="feat"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><h3 class="feat-title">DSGVO-konform</h3><p class="feat-desc">Alle Daten in Deutschland. Volle Rechtskonformität — ohne Kompromisse.</p></div>
+      <div class="feat"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div><h3 class="feat-title">Live in 7 Tagen</h3><p class="feat-desc">Kein IT-Team nötig. Wir richten alles ein — Sie starten sofort.</p></div>
+    </div>
+  </div>
+</section>
+<section class="how" id="ablauf">
+  <div class="how-inner">
+    <div class="section-tag reveal">Ablauf</div>
+    <h2 class="section-title reveal">In drei Schritten live.</h2>
+    <div class="how-grid reveal">
+      <div class="how-card"><div class="how-num">SCHRITT 01</div><h3 class="how-title">Erstgespräch & Analyse</h3><p class="how-desc">Wir verstehen Ihr Unternehmen und definieren gemeinsam was der Assistent können muss.</p></div>
+      <div class="how-card"><div class="how-num">SCHRITT 02</div><h3 class="how-title">Setup & Konfiguration</h3><p class="how-desc">Kalender, Antworten, Eskalationslogik — alles eingerichtet in unter 7 Tagen.</p></div>
+      <div class="how-card"><div class="how-num">SCHRITT 03</div><h3 class="how-title">Live & lernend</h3><p class="how-desc">Ab dem ersten Tag arbeitet Ihr Assistent. Wir optimieren kontinuierlich.</p></div>
+    </div>
+  </div>
+</section>
+<section class="cta" id="kontakt">
+  <div class="cta-content reveal">
+    <h2 class="cta-title">Bereit, <span>keinen Anruf</span><br>mehr zu verpassen?</h2>
+    <p class="cta-sub">Kostenlose Demo. Kein Vertrag. Antwort innerhalb von 24 Stunden.</p>
+    <a href="mailto:info@ki-komplettloesung.de" class="btn-lg btn-primary-lg">Jetzt Demo anfragen →</a>
+    <div class="cta-meta">
+      <div class="cta-meta-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Kostenlos testen</div>
+      <div class="cta-meta-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Kein Vertrag</div>
+      <div class="cta-meta-item"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>DSGVO-konform</div>
+    </div>
+  </div>
+</section>
+<footer>
+  <span class="footer-logo">KI Komplettlösung</span>
+  <ul class="footer-links">
+    <li><a href="#">Impressum</a></li>
+    <li><a href="#">Datenschutz</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 Powered by Vanec AI</span>
+</footer>
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 60);
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
