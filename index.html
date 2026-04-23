@@ -97,7 +97,7 @@ footer { position: relative; z-index: 1; border-top: 1px solid var(--border); pa
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 @keyframes up { to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .stats-inner { grid-template-columns: 1fr 1fr; gap: 8px; } .features-grid { grid-template-columns: 1fr; } .how-grid { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 16px; } .footer-links { display: none; } .cta-meta { flex-direction: column; gap: 8px; } }
+@media (max-width: 768px) { nav { padding: 0 16px; } .nav-links { display: none; } .stats-inner { grid-template-columns: 1fr 1fr; gap: 8px; } .features-grid { grid-template-columns: 1fr; } .how-grid { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 16px; } .footer-links { display: flex; flex-direction: column; gap: 10px;} .cta-meta { flex-direction: column; gap: 8px; } }
 </style>
 </head>
 <body>
