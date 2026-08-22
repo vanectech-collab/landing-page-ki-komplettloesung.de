@@ -95,6 +95,7 @@
   .q-hint{font-size:13px; color:var(--ink-faint); margin-top:-8px; margin-bottom:14px;}
   .q-options{display:flex; flex-wrap:wrap; gap:10px;}
   .q-chip{ padding:11px 20px; border-radius:999px; background:var(--bg); font-size:14.5px; font-weight:500; color:var(--ink-soft); cursor:pointer; transition:all 0.15s ease; border:none; font-family:inherit; }
+  .q-chip.multi{ text-align:left; }
   .q-chip:hover{background:var(--signal-soft); color:var(--ink);}
   .q-chip.selected{background:var(--signal-grad); color:#fff;}
   .q-input{ width:100%; padding:14px 16px; border-radius:12px; border:1px solid var(--line); background:var(--surface); font-size:15px; font-family:inherit; color:var(--ink); }
@@ -583,83 +584,29 @@
         <form id="analyse-form">
 
           <div class="q-block">
-            <div class="q-label">Wo sehen Sie aktuell den größten Bedarf für KI-Unterstützung?</div>
+            <div class="q-label">Wo sehen Sie aktuell Automatisierungspotenzial?</div>
+            <div class="q-hint">Mehrfachauswahl möglich</div>
             <div class="q-options">
-              <button type="button" class="q-chip" data-group="bereich" data-branch="kommunikation" onclick="selectBereich(this)">Kundenkommunikation (Telefon/Website)</button>
-              <button type="button" class="q-chip" data-group="bereich" data-branch="prozesse" onclick="selectBereich(this)">Interne Prozesse & Datenverarbeitung</button>
-              <button type="button" class="q-chip" data-group="bereich" data-branch="vertrieb" onclick="selectBereich(this)">Vertrieb & CRM</button>
-              <button type="button" class="q-chip" data-group="bereich" data-branch="unklar" onclick="selectBereich(this)">Weiß ich noch nicht genau</button>
+              <button type="button" class="q-chip multi" data-group="bereich" data-label="Kundenkommunikation" onclick="toggleMulti(this)">☐ Kundenkommunikation</button>
+              <button type="button" class="q-chip multi" data-group="bereich" data-label="Interne Prozesse" onclick="toggleMulti(this)">☐ Interne Prozesse</button>
+              <button type="button" class="q-chip multi" data-group="bereich" data-label="Vertrieb & CRM" onclick="toggleMulti(this)">☐ Vertrieb & CRM</button>
+              <button type="button" class="q-chip multi" data-group="bereich" data-label="Datenerfassung / Dokumente" onclick="toggleMulti(this)">☐ Datenerfassung / Dokumente</button>
+              <button type="button" class="q-chip multi" data-group="bereich" data-label="Termin- und Folgeprozesse" onclick="toggleMulti(this)">☐ Termin- und Folgeprozesse</button>
+              <button type="button" class="q-chip multi" data-group="bereich" data-label="Noch unklar" data-exclusive="true" onclick="toggleMulti(this)">☐ Noch unklar</button>
             </div>
           </div>
 
           <div id="step2" style="display:none;">
 
-            <div id="branch-kommunikation" class="branch-block" style="display:none;">
-              <div class="q-block">
-                <div class="q-label">Über welchen Kanal kommen die meisten Anfragen rein?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-kommunikation-1" onclick="selectChip(this,false)">Telefon</button>
-                  <button type="button" class="q-chip" data-group="b-kommunikation-1" onclick="selectChip(this,false)">Website</button>
-                  <button type="button" class="q-chip" data-group="b-kommunikation-1" onclick="selectChip(this,false)">Beides gleichermaßen</button>
-                </div>
-              </div>
-              <div class="q-block">
-                <div class="q-label">Was passiert aktuell, wenn niemand sofort reagieren kann?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-kommunikation-2" data-score="0" onclick="selectChip(this,false)">Wir rufen später zurück</button>
-                  <button type="button" class="q-chip" data-group="b-kommunikation-2" data-score="6" onclick="selectChip(this,false)">Anfrage geht meist verloren</button>
-                  <button type="button" class="q-chip" data-group="b-kommunikation-2" data-score="3" onclick="selectChip(this,false)">Kunde wartet oft lange</button>
-                </div>
-              </div>
-            </div>
-
-            <div id="branch-prozesse" class="branch-block" style="display:none;">
-              <div class="q-block">
-                <div class="q-label">Welche Art von Aufgaben wiederholt sich am häufigsten?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-prozesse-1" onclick="selectChip(this,false)">Daten erfassen & übertragen</button>
-                  <button type="button" class="q-chip" data-group="b-prozesse-1" onclick="selectChip(this,false)">Dokumente prüfen</button>
-                  <button type="button" class="q-chip" data-group="b-prozesse-1" onclick="selectChip(this,false)">Informationen zwischen Systemen weitergeben</button>
-                </div>
-              </div>
-              <div class="q-block">
-                <div class="q-label">Wie viele verschiedene Systeme sind daran typischerweise beteiligt?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-prozesse-2" data-score="0" onclick="selectChip(this,false)">1 System</button>
-                  <button type="button" class="q-chip" data-group="b-prozesse-2" data-score="4" onclick="selectChip(this,false)">2–3 Systeme</button>
-                  <button type="button" class="q-chip" data-group="b-prozesse-2" data-score="7" onclick="selectChip(this,false)">mehr als 3 Systeme</button>
-                </div>
-              </div>
-            </div>
-
-            <div id="branch-vertrieb" class="branch-block" style="display:none;">
-              <div class="q-block">
-                <div class="q-label">Was kostet aktuell die meiste Zeit?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="6" onclick="selectChip(this,false)">CRM-Pflege</button>
-                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="5" onclick="selectChip(this,false)">Lead-Nachverfolgung</button>
-                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="4" onclick="selectChip(this,false)">Angebotserstellung</button>
-                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="5" onclick="selectChip(this,false)">Reporting</button>
-                </div>
-              </div>
-              <div class="q-block">
-                <div class="q-label">Nutzen Sie bereits ein CRM-System?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-vertrieb-2" onclick="selectChip(this,false)">Ja, aber unübersichtlich</button>
-                  <button type="button" class="q-chip" data-group="b-vertrieb-2" onclick="selectChip(this,false)">Ja, funktioniert gut</button>
-                  <button type="button" class="q-chip" data-group="b-vertrieb-2" onclick="selectChip(this,false)">Nein, noch nicht</button>
-                </div>
-              </div>
-            </div>
-
-            <div id="branch-unklar" class="branch-block" style="display:none;">
-              <div class="q-block">
-                <div class="q-label">Was beschreibt Ihre Situation am besten?</div>
-                <div class="q-options">
-                  <button type="button" class="q-chip" data-group="b-unklar-1" onclick="selectChip(this,false)">Viele manuelle Abläufe, unklar wo anfangen</button>
-                  <button type="button" class="q-chip" data-group="b-unklar-1" onclick="selectChip(this,false)">Erste Ideen vorhanden, brauche Priorisierung</button>
-                  <button type="button" class="q-chip" data-group="b-unklar-1" onclick="selectChip(this,false)">Erstmal verstehen, was überhaupt möglich ist</button>
-                </div>
+            <div class="q-block">
+              <div class="q-label">Was kostet aktuell die meiste Zeit?</div>
+              <div class="q-hint">Mehrfachauswahl möglich</div>
+              <div class="q-options">
+                <button type="button" class="q-chip multi" data-group="herausforderung" data-label="Anfragen manuell beantworten" data-score="5" onclick="toggleMulti(this)">☐ Anfragen manuell beantworten</button>
+                <button type="button" class="q-chip multi" data-group="herausforderung" data-label="Daten mehrfach erfassen" data-score="5" onclick="toggleMulti(this)">☐ Daten mehrfach erfassen</button>
+                <button type="button" class="q-chip multi" data-group="herausforderung" data-label="Systeme nicht miteinander verbunden" data-score="6" onclick="toggleMulti(this)">☐ Systeme nicht miteinander verbunden</button>
+                <button type="button" class="q-chip multi" data-group="herausforderung" data-label="Nachverfolgung & Reporting" data-score="4" onclick="toggleMulti(this)">☐ Nachverfolgung & Reporting</button>
+                <button type="button" class="q-chip multi" data-group="herausforderung" data-label="Wiederkehrende Rückfragen" data-score="4" onclick="toggleMulti(this)">☐ Wiederkehrende Rückfragen</button>
               </div>
             </div>
 
@@ -737,16 +684,32 @@
     if(!wasOpen){ item.classList.add('open'); }
   }
 
-  let activeBranch = null;
+  function toggleMulti(el){
+    el.classList.toggle('selected');
+    el.textContent = (el.classList.contains('selected') ? '☑ ' : '☐ ') + el.dataset.label;
 
-  function selectBereich(el){
-    document.querySelectorAll('.q-chip[data-group="bereich"]').forEach(c=>c.classList.remove('selected'));
-    el.classList.add('selected');
+    const group = el.dataset.group;
+    if(group === 'bereich'){
+      if(el.dataset.exclusive === 'true'){
+        if(el.classList.contains('selected')){
+          document.querySelectorAll('.q-chip[data-group="bereich"]').forEach(c=>{
+            if(c !== el && c.classList.contains('selected')){
+              c.classList.remove('selected');
+              c.textContent = '☐ ' + c.dataset.label;
+            }
+          });
+        }
+      } else if(el.classList.contains('selected')){
+        const unklar = document.querySelector('.q-chip[data-group="bereich"][data-exclusive="true"]');
+        if(unklar && unklar.classList.contains('selected')){
+          unklar.classList.remove('selected');
+          unklar.textContent = '☐ ' + unklar.dataset.label;
+        }
+      }
+      const anySelected = document.querySelector('.q-chip[data-group="bereich"].selected');
+      document.getElementById('step2').style.display = anySelected ? 'block' : 'none';
+    }
 
-    activeBranch = el.dataset.branch;
-    document.getElementById('step2').style.display = 'block';
-    document.querySelectorAll('.branch-block').forEach(b => b.style.display = 'none');
-    document.getElementById('branch-' + activeBranch).style.display = 'block';
     updateScore();
   }
 
@@ -772,7 +735,7 @@
 
     let score = parseInt(zeitChip.dataset.score, 10);
 
-    document.querySelectorAll('#step2 .branch-block .q-chip.selected').forEach(c => {
+    document.querySelectorAll('.q-chip[data-group="herausforderung"].selected').forEach(c => {
       if(c.dataset.score){ score += parseInt(c.dataset.score, 10); }
     });
 
@@ -803,7 +766,7 @@
     e.preventDefault();
 
     function getSelected(group){
-      return Array.from(document.querySelectorAll('.q-chip[data-group="'+group+'"].selected')).map(c=>c.textContent).join(', ') || '—';
+      return Array.from(document.querySelectorAll('.q-chip[data-group="'+group+'"].selected')).map(c=>c.dataset.label || c.textContent).join(', ') || '—';
     }
 
     const name = document.getElementById('q-name').value || '—';
@@ -818,34 +781,12 @@
       return;
     }
 
-    let branchLines = [];
-    if(activeBranch === 'kommunikation'){
-      branchLines = [
-        'Kanal: ' + getSelected('b-kommunikation-1'),
-        'Bei Nichterreichbarkeit: ' + getSelected('b-kommunikation-2')
-      ];
-    } else if(activeBranch === 'prozesse'){
-      branchLines = [
-        'Häufigste Aufgabe: ' + getSelected('b-prozesse-1'),
-        'Beteiligte Systeme: ' + getSelected('b-prozesse-2')
-      ];
-    } else if(activeBranch === 'vertrieb'){
-      branchLines = [
-        'Größter Zeitfresser: ' + getSelected('b-vertrieb-1'),
-        'CRM-Status: ' + getSelected('b-vertrieb-2')
-      ];
-    } else if(activeBranch === 'unklar'){
-      branchLines = [
-        'Situation: ' + getSelected('b-unklar-1')
-      ];
-    }
-
     const body = [
       'Name: ' + name,
       'E-Mail: ' + email,
       '',
-      'Bereich mit größtem Bedarf: ' + getSelected('bereich'),
-      ...branchLines,
+      'Automatisierungspotenzial in: ' + getSelected('bereich'),
+      'Größte Zeitfresser: ' + getSelected('herausforderung'),
       'Zeitaufwand pro Woche: ' + getSelected('zeitaufwand'),
       'Geschätztes Automatisierungspotenzial: ' + potenzial
     ].join('\n');
