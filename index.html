@@ -1,783 +1,208 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>KI-Komplettlösung — KI-Automatisierung für Unternehmen</title>
-
-  <meta
-    name="description"
-    content="Wir automatisieren Kundenkommunikation und wiederkehrende Geschäftsprozesse mit KI – von der Anfrage bis zum nächsten Schritt."
-  >
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
-    rel="stylesheet"
-  >
-
-  <style>
-    :root{
-      --bg:#F7F7F5;
-      --surface:#FFFFFF;
-      --ink:#111111;
-      --ink-soft:#666666;
-      --ink-faint:#93938E;
-      --line:#E5E5E3;
-      --signal:#2953FF;
-      --signal-soft:#EAEEFF;
-      --radius:14px;
-      --max:1160px;
-    }
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      html{
-        scroll-behavior:auto;
-      }
-
-      *{
-        animation-duration:0.01ms !important;
-        transition-duration:0.01ms !important;
-      }
-    }
-
-    body{
-      background:var(--bg);
-      color:var(--ink);
-      font-family:'Inter', sans-serif;
-      font-size:17px;
-      line-height:1.6;
-      -webkit-font-smoothing:antialiased;
-    }
-
-    h1,
-    h2,
-    h3,
-    .display{
-      font-family:'Space Grotesk', sans-serif;
-      font-weight:600;
-      letter-spacing:-0.015em;
-      line-height:1.08;
-    }
-
-    .mono{
-      font-family:'JetBrains Mono', monospace;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:0 28px;
-    }
-
-    section{
-      padding:100px 0;
-    }
-
-    @media (max-width:640px){
-      section{
-        padding:60px 0;
-      }
-
-      .wrap{
-        padding:0 20px;
-      }
-    }
-
-    .eyebrow-text{
-      font-size:13px;
-      font-weight:600;
-      letter-spacing:0.09em;
-      text-transform:uppercase;
-      color:var(--ink-faint);
-      margin-bottom:18px;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-family:'JetBrains Mono', monospace;
-      font-size:12px;
-      font-weight:600;
-      letter-spacing:0.06em;
-      text-transform:uppercase;
-      color:var(--ink-soft);
-      padding:6px 12px 6px 10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:var(--surface);
-    }
-
-    .pill .dot{
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      background:var(--signal);
-      box-shadow:0 0 0 3px var(--signal-soft);
-    }
-
-    header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:rgba(247,247,245,0.9);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid var(--line);
-    }
-
-    nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:16px 28px;
-      max-width:var(--max);
-      margin:0 auto;
-    }
-
-    .logo{
-      font-family:'Space Grotesk', sans-serif;
-      font-weight:700;
-      font-size:18px;
-    }
-
-    .navlinks{
-      display:flex;
-      gap:34px;
-      font-size:14px;
-      font-weight:500;
-      color:var(--ink-soft);
-    }
-
-    .navlinks a:hover{
-      color:var(--ink);
-    }
-
-    .navcta{
-      font-size:14px;
-      font-weight:600;
-      background:var(--ink);
-      color:#fff;
-      padding:10px 20px;
-      border-radius:999px;
-    }
-
-    .navcta:hover{
-      background:var(--signal);
-    }
-
-    .mobile-hide{
-      display:flex;
-    }
-
-    @media (max-width:760px){
-      .mobile-hide{
-        display:none;
-      }
-    }
-
-    .hero{
-      padding:76px 0 0;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.15fr 1fr;
-      gap:64px;
-      align-items:center;
-    }
-
-    @media (max-width:900px){
-      .hero-grid{
-        grid-template-columns:1fr;
-        gap:36px;
-      }
-    }
-
-    h1.hero-h{
-      font-size:clamp(38px,6vw,62px);
-      margin-bottom:22px;
-    }
-
-    .hero-sub{
-      font-size:19px;
-      color:var(--ink-soft);
-      max-width:560px;
-      margin-bottom:32px;
-    }
-
-    .cta-row{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:22px;
-    }
-
-    .btn-primary{
-      background:var(--ink);
-      color:#fff;
-      font-weight:600;
-      font-size:15px;
-      padding:14px 26px;
-      border-radius:999px;
-      display:inline-block;
-      transition:background 0.15s ease;
-    }
-
-    .btn-primary:hover{
-      background:var(--signal);
-    }
-
-    .btn-secondary{
-      border:1px solid var(--line);
-      color:var(--ink);
-      font-weight:600;
-      font-size:15px;
-      padding:13px 24px;
-      border-radius:999px;
-      display:inline-block;
-      background:var(--surface);
-    }
-
-    .btn-secondary:hover{
-      border-color:var(--ink);
-    }
-
-    .scope-line{
-      font-size:13px;
-      color:var(--ink-faint);
-      font-family:'JetBrains Mono', monospace;
-      letter-spacing:0.03em;
-    }
-
-    .device-caption{
-      font-size:12.5px;
-      color:var(--ink-faint);
-      margin-top:12px;
-      text-align:center;
-    }
-
-    .device{
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:20px;
-      box-shadow:0 24px 60px -30px rgba(17,17,17,0.22);
-    }
-
-    .toggle-row{
-      display:flex;
-      gap:6px;
-      background:var(--bg);
-      border-radius:999px;
-      padding:4px;
-      margin-bottom:18px;
-    }
-
-    .toggle-btn{
-      flex:1;
-      text-align:center;
-      padding:9px 10px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:600;
-      color:var(--ink-soft);
-      cursor:pointer;
-      border:none;
-      background:transparent;
-      font-family:'Inter', sans-serif;
-    }
-
-    .toggle-btn.active{
-      background:var(--ink);
-      color:#fff;
-    }
-
-    .chat-window{
-      min-height:230px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .bubble{
-      max-width:82%;
-      padding:12px 14px;
-      border-radius:14px;
-      font-size:14.5px;
-      line-height:1.45;
-    }
-
-    .bubble.user{
-      align-self:flex-end;
-      background:var(--signal-soft);
-      color:var(--ink);
-      border-bottom-right-radius:4px;
-    }
-
-    .bubble.ai{
-      align-self:flex-start;
-      background:var(--bg);
-      border:1px solid var(--line);
-      border-bottom-left-radius:4px;
-    }
-
-    .status-row{
-      margin-top:6px;
-    }
-
-    .demo-panel{
-      display:none;
-    }
-
-    .demo-panel.active{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .trust-row{
-      display:flex;
-      gap:48px;
-      flex-wrap:wrap;
-      justify-content:center;
-      text-align:center;
-      padding:52px 0 0;
-    }
-
-    .trust-item{
-      font-size:14.5px;
-      color:var(--ink-soft);
-    }
-
-    h2.section-h{
-      font-size:clamp(30px,4.2vw,46px);
-      max-width:680px;
-      margin-bottom:16px;
-    }
-
-    .section-sub{
-      font-size:17px;
-      color:var(--ink-soft);
-      max-width:620px;
-      margin-bottom:0;
-    }
-
-    .sol-area{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:56px;
-      align-items:center;
-      padding:56px 0;
-      border-top:1px solid var(--line);
-    }
-
-    .sol-area:last-child{
-      border-bottom:1px solid var(--line);
-    }
-
-    @media (max-width:820px){
-      .sol-area{
-        grid-template-columns:1fr;
-        gap:28px;
-      }
-    }
-
-    .sol-area.reverse .sol-text{
-      order:2;
-    }
-
-    .sol-area.reverse .sol-visual{
-      order:1;
-    }
-
-    @media (max-width:820px){
-      .sol-area.reverse .sol-text{
-        order:1;
-      }
-
-      .sol-area.reverse .sol-visual{
-        order:2;
-      }
-    }
-
-    .sol-num{
-      font-family:'JetBrains Mono', monospace;
-      font-size:13px;
-      color:var(--signal);
-      margin-bottom:14px;
-    }
-
-    .sol-text h3{
-      font-size:26px;
-      margin-bottom:14px;
-    }
-
-    .sol-text p{
-      font-size:16px;
-      color:var(--ink-soft);
-      max-width:440px;
-    }
-
-    .sol-visual{
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:36px 28px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:140px;
-    }
-
-    .flow{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:center;
-      font-family:'JetBrains Mono', monospace;
-      font-size:12.5px;
-      color:var(--ink-soft);
-      text-transform:uppercase;
-      letter-spacing:0.03em;
-    }
-
-    .flow .node{
-      background:var(--bg);
-      border:1px solid var(--line);
-      padding:9px 14px;
-      border-radius:8px;
-    }
-
-    .flow .node.accent{
-      background:var(--signal);
-      border-color:var(--signal);
-      color:#fff;
-    }
-
-    .flow .arrow{
-      color:var(--ink-faint);
-    }
-
-    .flow-branch{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      align-items:flex-end;
-    }
-
-    .process-flow{
-      max-width:900px;
-      margin:0 auto;
-      display:grid;
-      grid-template-columns:auto 24px auto 24px auto 24px auto 24px auto;
-      align-items:center;
-      justify-content:center;
-      gap:0;
-    }
-
-    @media (max-width:900px){
-      .process-flow{
-        max-width:420px;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-      }
-    }
-
-    .p-node{
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:20px 18px;
-      text-align:center;
-      min-width:140px;
-    }
-
-    @media (max-width:900px){
-      .p-node{
-        width:100%;
-      }
-    }
-
-    .p-node .p-label{
-      font-family:'JetBrains Mono', monospace;
-      font-size:11px;
-      color:var(--signal);
-      letter-spacing:0.06em;
-      margin-bottom:6px;
-    }
-
-    .p-node h4{
-      font-size:16px;
-      margin-bottom:6px;
-    }
-
-    .p-node p{
-      font-size:13px;
-      color:var(--ink-soft);
-    }
-
-    .p-arrow{
-      font-size:18px;
-      color:var(--ink-faint);
-      text-align:center;
-    }
-
-    @media (max-width:900px){
-      .p-arrow{
-        padding:6px 0;
-        transform:rotate(90deg);
-      }
-    }
-
-    .p-node.accent{
-      background:var(--ink);
-      border-color:var(--ink);
-    }
-
-    .p-node.accent h4,
-    .p-node.accent .p-label{
-      color:#fff;
-    }
-
-    .p-node.accent p{
-      color:#B8BCC6;
-    }
-
-    .approach-line{
-      display:flex;
-      border-top:2px solid var(--ink);
-    }
-
-    .approach-line .a-step{
-      flex:1;
-      padding:24px 20px 0;
-      border-left:1px solid var(--line);
-    }
-
-    .approach-line .a-step:first-child{
-      border-left:none;
-    }
-
-    @media (max-width:760px){
-      .approach-line{
-        flex-direction:column;
-      }
-
-      .approach-line .a-step{
-        border-left:none;
-        border-top:1px solid var(--line);
-        padding:20px 0 0;
-      }
-
-      .approach-line .a-step:first-child{
-        border-top:none;
-      }
-    }
-
-    .a-num{
-      font-family:'JetBrains Mono', monospace;
-      font-size:12px;
-      color:var(--signal);
-      margin-bottom:10px;
-    }
-
-    .a-step h4{
-      font-size:16px;
-      margin-bottom:6px;
-    }
-
-    .a-step p{
-      font-size:13.5px;
-      color:var(--ink-soft);
-    }
-
-    .faq-card{
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:8px 28px;
-    }
-
-    .faq-item{
-      border-bottom:1px solid var(--line);
-    }
-
-    .faq-item:last-child{
-      border-bottom:none;
-    }
-
-    .faq-q{
-      width:100%;
-      text-align:left;
-      background:none;
-      border:none;
-      padding:22px 0;
-      font-size:16px;
-      font-weight:600;
-      font-family:'Inter', sans-serif;
-      color:var(--ink);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      cursor:pointer;
-      gap:20px;
-    }
-
-    .faq-q:hover{
-      color:var(--signal);
-    }
-
-    .faq-icon{
-      flex-shrink:0;
-      width:28px;
-      height:28px;
-      border-radius:50%;
-      border:1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:16px;
-      font-weight:400;
-      color:var(--ink-faint);
-      transition:all 0.2s ease;
-    }
-
-    .faq-item.open .faq-icon{
-      background:var(--signal);
-      border-color:var(--signal);
-      color:#fff;
-      transform:rotate(45deg);
-    }
-
-    .faq-q:hover .faq-icon{
-      border-color:var(--signal);
-      color:var(--signal);
-    }
-
-    .faq-item.open .faq-q:hover .faq-icon{
-      color:#fff;
-    }
-
-    .faq-a{
-      max-height:0;
-      overflow:hidden;
-      transition:max-height 0.25s ease;
-    }
-
-    .faq-item.open .faq-a{
-      max-height:260px;
-    }
-
-    .faq-a p{
-      font-size:14.5px;
-      color:var(--ink-soft);
-      padding:0 0 22px;
-      max-width:700px;
-      border-left:2px solid var(--signal-soft);
-      padding-left:16px;
-      margin-left:2px;
-    }
-
-    .final-cta{
-      background:var(--ink);
-      color:#fff;
-      border-radius:24px;
-      padding:72px 40px;
-      text-align:center;
-    }
-
-    .final-cta h2{
-      color:#fff;
-      margin-bottom:16px;
-    }
-
-    .final-cta p{
-      color:#B8BCC6;
-      max-width:560px;
-      margin:0 auto 32px;
-      font-size:17px;
-    }
-
-    .final-cta .btn-primary{
-      background:var(--signal);
-    }
-
-    .final-cta .btn-primary:hover{
-      background:#fff;
-      color:var(--ink);
-    }
-
-    .final-note{
-      font-size:13px;
-      color:#8A8F99;
-      margin-top:20px;
-    }
-
-    footer{
-      padding:44px 0;
-      border-top:1px solid var(--line);
-    }
-
-    .footer-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:16px;
-    }
-
-    .footer-links{
-      display:flex;
-      gap:22px;
-      font-size:13px;
-      color:var(--ink-soft);
-    }
-
-    .footer-links a:hover{
-      color:var(--ink);
-    }
-
-    :focus-visible{
-      outline:2px solid var(--signal);
-      outline-offset:2px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Komplettlösung — KI-Automatisierung für Unternehmen</title>
+<meta name="description" content="Wir automatisieren Kundenkommunikation und wiederkehrende Geschäftsprozesse mit KI. Telefon, Website und bestehende Systeme werden zu einem automatisierten Ablauf verbunden.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F5F7; --surface:#FFFFFF; --ink:#1D1D1F; --ink-soft:#6E6E73; --ink-faint:#86868B;
+    --line:#E8E8ED; --signal:#5B57FF; --signal-hover:#4A46F0; --signal-soft:#EFEEFF;
+    --signal-grad:linear-gradient(135deg, #8B5CF6 0%, #4C6FFF 100%);
+    --radius:20px; --max:1160px;
+    --shadow-sm:0 2px 18px rgba(0,0,0,0.05);
+    --shadow-md:0 20px 50px rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif; font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,.display{ font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif; font-weight:700; letter-spacing:-0.025em; line-height:1.08; }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+  section{padding:96px 0;}
+  @media (max-width:640px){ section{padding:60px 0;} .wrap{padding:0 20px;} }
+  #loesungen{padding:120px 0;}
+  @media (max-width:640px){ #loesungen{padding:60px 0;} }
+
+  .eyebrow-text{ font-size:13px; font-weight:600; letter-spacing:0.02em; color:var(--signal); margin-bottom:16px; }
+
+  .pill{ display:inline-flex; align-items:center; font-size:13px; font-weight:600; color:var(--signal); padding:8px 16px; border-radius:999px; background:var(--signal-soft); }
+
+  header{ position:sticky; top:0; z-index:50; background:rgba(245,245,247,0.78); backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid rgba(0,0,0,0.06); }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:var(--max); margin:0 auto; }
+  .logo{font-weight:700; font-size:17px; letter-spacing:-0.02em;}
+  .navlinks{display:flex; gap:32px; font-size:14px; font-weight:500; color:var(--ink-soft);}
+  .navlinks a:hover{color:var(--ink);}
+  .navcta{ font-size:14px; font-weight:600; background:var(--signal-grad); color:#fff; padding:9px 20px; border-radius:999px; transition:filter 0.15s ease; }
+  .navcta:hover{filter:brightness(1.08);}
+  .mobile-hide{display:flex;}
+  @media (max-width:760px){ .mobile-hide{display:none;} }
+
+  .hero{padding:88px 0 0;}
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:72px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr; gap:40px;} }
+  h1.hero-h{font-size:clamp(40px,6.4vw,68px); margin-bottom:22px; letter-spacing:-0.03em;}
+  .hero-sub{font-size:20px; color:var(--ink-soft); max-width:520px; margin-bottom:34px; line-height:1.5; font-weight:400;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:24px;}
+  .btn-primary{ background:var(--signal-grad); color:#fff; font-weight:600; font-size:16px; padding:14px 28px; border-radius:999px; display:inline-block; transition:filter 0.15s ease, transform 0.15s ease; }
+  .btn-primary:hover{filter:brightness(1.08); transform:translateY(-1px);}
+  .btn-secondary{ color:var(--signal); font-weight:600; font-size:16px; padding:14px 8px; display:inline-block; transition:opacity 0.15s ease; }
+  .btn-secondary:hover{opacity:0.65;}
+  .scope-line{font-size:14px; color:var(--ink-faint); font-weight:500;}
+  .device-caption{font-size:13px; color:var(--ink-faint); margin-top:16px; text-align:center;}
+
+  .device{ background:var(--surface); border-radius:28px; padding:24px; box-shadow:var(--shadow-md); }
+  .toggle-row{ display:flex; gap:4px; background:var(--bg); border-radius:999px; padding:4px; margin-bottom:20px; }
+  .toggle-btn{ flex:1; text-align:center; padding:10px 10px; border-radius:999px; font-size:13.5px; font-weight:600; color:var(--ink-soft); cursor:pointer; border:none; background:transparent; font-family:inherit; transition:all 0.2s ease; }
+  .toggle-btn.active{background:var(--surface); color:var(--ink); box-shadow:0 1px 6px rgba(0,0,0,0.12);}
+  .chat-window{min-height:220px; display:flex; flex-direction:column; gap:10px;}
+  .bubble{ max-width:82%; padding:12px 16px; border-radius:20px; font-size:15px; line-height:1.45; }
+  .bubble.user{ align-self:flex-end; background:var(--signal-grad); color:#fff; border-bottom-right-radius:6px; }
+  .bubble.ai{ align-self:flex-start; background:var(--bg); color:var(--ink); border-bottom-left-radius:6px; }
+  .demo-panel{display:none;}
+  .demo-panel.active{display:flex; flex-direction:column; gap:12px;}
+
+  .trust-row{ display:flex; gap:48px; flex-wrap:wrap; justify-content:center; text-align:center; padding:56px 0 0; }
+  .trust-item{font-size:14.5px; color:var(--ink-soft); font-weight:500;}
+
+  h2.section-h{font-size:clamp(32px,4.2vw,48px); max-width:680px; margin-bottom:16px; letter-spacing:-0.025em;}
+  .section-sub{font-size:18px; color:var(--ink-soft); max-width:600px; margin-bottom:0; line-height:1.5;}
+
+  .sol-area{ display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; padding:64px 0; border-top:1px solid rgba(0,0,0,0.07); }
+  .sol-area:last-child{border-bottom:1px solid rgba(0,0,0,0.07);}
+  @media (max-width:820px){ .sol-area{grid-template-columns:1fr; gap:32px;} }
+  .sol-area.reverse .sol-text{order:2;}
+  .sol-area.reverse .sol-visual{order:1;}
+  @media (max-width:820px){ .sol-area.reverse .sol-text{order:1;} .sol-area.reverse .sol-visual{order:2;} }
+  .sol-num{font-size:14px; font-weight:700; color:var(--signal); margin-bottom:16px;}
+  .sol-text h3{font-size:28px; margin-bottom:14px; letter-spacing:-0.02em;}
+  .sol-text p{font-size:17px; color:var(--ink-soft); max-width:440px; line-height:1.55;}
+  .sol-visual{ background:var(--surface); border-radius:24px; padding:40px 32px; display:flex; align-items:center; justify-content:center; min-height:150px; box-shadow:var(--shadow-sm); }
+  .flow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; font-size:13.5px; font-weight:600; color:var(--ink-soft); }
+  .flow .node{ background:var(--bg); padding:10px 16px; border-radius:999px; }
+  .flow .node.accent{ background:var(--signal-grad); color:#fff; }
+  .flow .arrow{color:var(--ink-faint); font-weight:400;}
+  .flow-branch{display:flex; flex-direction:column; gap:8px; align-items:flex-end;}
+
+  .process-flow{ max-width:420px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0; }
+  .q-block{margin-bottom:36px;}
+  .q-label{font-size:16px; font-weight:600; margin-bottom:14px; letter-spacing:-0.01em;}
+  .q-hint{font-size:13px; color:var(--ink-faint); margin-top:-8px; margin-bottom:14px;}
+  .q-options{display:flex; flex-wrap:wrap; gap:10px;}
+  .q-chip{ padding:11px 20px; border-radius:999px; background:var(--bg); font-size:14.5px; font-weight:500; color:var(--ink-soft); cursor:pointer; transition:all 0.15s ease; border:none; font-family:inherit; }
+  .q-chip:hover{background:var(--signal-soft); color:var(--ink);}
+  .q-chip.selected{background:var(--signal-grad); color:#fff;}
+  .q-input{ width:100%; padding:14px 16px; border-radius:12px; border:1px solid var(--line); background:var(--surface); font-size:15px; font-family:inherit; color:var(--ink); }
+  .q-input:focus-visible{outline:2px solid var(--signal); outline-offset:1px;}
+  .q-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .q-row{grid-template-columns:1fr;} }
+  .analyse-card{ background:var(--surface); border-radius:28px; padding:44px 40px; box-shadow:var(--shadow-md); max-width:720px; margin:0 auto; }
+  @media (max-width:640px){ .analyse-card{padding:28px 22px;} }
+  .analyse-note{font-size:13px; color:var(--ink-faint); text-align:center; margin-top:20px;}
+
+  .p-node{ width:100%; background:var(--surface); border-radius:22px; padding:22px 26px; text-align:center; box-shadow:var(--shadow-sm); }
+  .p-node .p-label{font-size:12px; font-weight:700; color:var(--signal); letter-spacing:0.02em; margin-bottom:6px;}
+  .p-node h4{font-size:18px; margin-bottom:6px; letter-spacing:-0.01em;}
+  .p-node p{font-size:14px; color:var(--ink-soft);}
+  .p-arrow{font-size:18px; color:var(--ink-faint); padding:8px 0;}
+  .p-node.accent{background:var(--signal-grad);}
+  .p-node.accent h4, .p-node.accent .p-label{color:#fff;}
+  .p-node.accent p{color:rgba(255,255,255,0.75);}
+  .process-mobile{display:none;}
+  .process-desktop{display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:nowrap;}
+  .pd-branch{display:flex; flex-direction:column; gap:10px;}
+  .pd-node{ background:var(--surface); border-radius:16px; padding:16px 20px; text-align:center; min-width:120px; box-shadow:var(--shadow-sm); }
+  .pd-node.accent{background:var(--signal-grad); color:#fff;}
+  .pd-node .pd-label{font-size:10.5px; font-weight:700; color:var(--signal); letter-spacing:0.02em; margin-bottom:4px;}
+  .pd-node.accent .pd-label{color:rgba(255,255,255,0.75);}
+  .pd-node h5{font-size:14px; font-weight:600; letter-spacing:-0.01em;}
+  .pd-arrow{font-size:18px; color:var(--ink-faint); flex-shrink:0;}
+  @media (max-width:980px){ .process-desktop{display:none;} .process-mobile{display:flex;} }
+
+  .compare-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:24px; align-items:center; margin-top:32px; }
+  @media (max-width:760px){ .compare-grid{grid-template-columns:1fr;} }
+  .compare-card{ background:var(--surface); border-radius:22px; padding:28px; box-shadow:var(--shadow-sm); }
+  .compare-card.highlight{ box-shadow:var(--shadow-md); border:2px solid transparent; background-image:linear-gradient(var(--surface),var(--surface)), var(--signal-grad); background-origin:border-box; background-clip:padding-box, border-box; }
+  .compare-label{font-size:13px; font-weight:700; color:var(--ink-faint); margin-bottom:16px;}
+  .compare-card.highlight .compare-label{color:var(--signal);}
+  .compare-vs{font-size:13px; font-weight:700; color:var(--ink-faint); text-align:center;}
+  .compare-flow{display:flex; flex-direction:column; gap:8px;}
+  .compare-flow .cnode{ background:var(--bg); padding:9px 14px; border-radius:10px; font-size:13.5px; font-weight:600; color:var(--ink-soft); }
+  .compare-card.highlight .compare-flow .cnode{ background:var(--signal-soft); color:var(--ink); }
+
+  .audience-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  @media (max-width:980px){ .audience-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .audience-grid{grid-template-columns:1fr;} }
+  .audience-card{ background:var(--surface); border-radius:20px; padding:28px; box-shadow:var(--shadow-sm); }
+  .audience-card h4{font-size:17px; margin-bottom:10px; letter-spacing:-0.01em;}
+  .audience-card p{font-size:14.5px; color:var(--ink-soft); line-height:1.5;}
+
+  .price-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:820px){ .price-grid{grid-template-columns:1fr;} }
+  .examples-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  @media (max-width:760px){ .examples-grid{grid-template-columns:1fr;} }
+  .price-card{ background:var(--surface); border-radius:24px; padding:32px 28px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; }
+  .price-card.featured{ box-shadow:var(--shadow-md); position:relative; border:2px solid transparent; background-image:linear-gradient(var(--surface),var(--surface)), var(--signal-grad); background-origin:border-box; background-clip:padding-box, border-box; }
+  .price-tier{font-size:13px; font-weight:700; color:var(--signal); letter-spacing:0.02em; margin-bottom:10px;}
+  .price-amount{font-size:32px; font-weight:700; letter-spacing:-0.02em; margin-bottom:4px;}
+  .price-amount span{font-size:15px; font-weight:500; color:var(--ink-faint);}
+  .price-setup{font-size:13px; color:var(--ink-faint); margin-bottom:20px;}
+  .price-card p.price-desc{font-size:14.5px; color:var(--ink-soft); margin-bottom:20px; flex-grow:1;}
+  .price-note{font-size:13px; color:var(--ink-faint); text-align:center; margin-top:28px;}
+
+  .approach-line{ display:flex; border-top:2px solid var(--ink); }
+  .approach-line .a-step{ flex:1; padding:26px 22px 0; border-left:1px solid rgba(0,0,0,0.08); }
+  .approach-line .a-step:first-child{border-left:none;}
+  @media (max-width:760px){ .approach-line{flex-direction:column;} .approach-line .a-step{border-left:none; border-top:1px solid rgba(0,0,0,0.08); padding:22px 0 0;} .approach-line .a-step:first-child{border-top:none;} }
+  .a-num{font-size:13px; font-weight:700; color:var(--signal); margin-bottom:10px;}
+  .a-step h4{font-size:17px; margin-bottom:6px; letter-spacing:-0.01em;}
+  .a-step p{font-size:14px; color:var(--ink-soft);}
+
+  .faq-card{ background:var(--surface); border-radius:24px; padding:8px 32px; box-shadow:var(--shadow-sm); }
+  .faq-item{border-bottom:1px solid rgba(0,0,0,0.07);}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{ width:100%; text-align:left; background:none; border:none; padding:24px 0; font-size:17px; font-weight:600; font-family:inherit; color:var(--ink); display:flex; justify-content:space-between; align-items:center; cursor:pointer; gap:20px; letter-spacing:-0.01em; }
+  .faq-q:hover{color:var(--signal);}
+  .faq-icon{ flex-shrink:0; width:28px; height:28px; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:400; color:var(--ink-faint); transition:all 0.2s ease; }
+  .faq-item.open .faq-icon{ background:var(--signal-grad); color:#fff; transform:rotate(45deg); }
+  .faq-q:hover .faq-icon{color:var(--signal);}
+  .faq-item.open .faq-q:hover .faq-icon{color:#fff;}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height 0.25s ease;}
+  .faq-item.open .faq-a{max-height:220px;}
+  .faq-a p{font-size:15px; color:var(--ink-soft); padding:0 0 24px; max-width:640px; line-height:1.55;}
+
+  .final-cta{ background:var(--ink); color:#fff; border-radius:28px; padding:80px 40px; text-align:center; }
+  .final-cta h2{color:#fff; margin-bottom:16px;}
+  .final-cta p{color:#A1A1A6; max-width:520px; margin:0 auto 34px; font-size:18px;}
+  .final-cta .btn-primary{background:var(--signal);}
+  .final-cta .btn-primary:hover{background:#fff; color:var(--ink);}
+  .final-cta .btn-secondary{color:#fff;}
+  .final-note{font-size:13px; color:#86868B; margin-top:22px;}
+
+  footer{padding:48px 0; border-top:1px solid rgba(0,0,0,0.07);}
+  .footer-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .footer-links{display:flex; gap:22px; font-size:13px; color:var(--ink-soft);}
+  .footer-links a:hover{color:var(--ink);}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:2px;}
+</style>
 </head>
-
 <body>
 
 <header>
   <nav>
     <div class="logo">KI-Komplettlösung</div>
-
     <div class="navlinks mobile-hide">
       <a href="#loesungen">Lösungen</a>
+      <a href="#preise">Kosten</a>
       <a href="#vorgehen">Vorgehen</a>
       <a href="#faq">FAQ</a>
     </div>
-
-    <a href="#kontakt" class="navcta">KI-Potenzial analysieren</a>
+    <a href="#analyse" class="navcta">KI-Potenzial analysieren</a>
   </nav>
 </header>
 
@@ -786,114 +211,53 @@
   <!-- HERO -->
   <section class="hero">
     <div class="wrap hero-grid">
-
       <div>
-        <div style="margin-bottom:24px;">
-          <span class="pill">
-            <span class="dot"></span>
-            KI-Automatisierung für Unternehmen
-          </span>
-        </div>
-
-        <h1 class="hero-h">
-          Keine Kundenanfrage mehr verpassen.
-        </h1>
-
-        <p class="hero-sub">
-          Wir automatisieren Kundenkommunikation und wiederkehrende Geschäftsprozesse mit KI – von der Anfrage bis zum nächsten Schritt.
-        </p>
-
+        <div style="margin-bottom:24px;"><span class="pill">KI-Automatisierung für Unternehmen</span></div>
+        <h1 class="hero-h">Wiederkehrende Arbeit mit KI automatisieren.</h1>
+        <p class="hero-sub">Wir analysieren Ihre Abläufe, entwickeln passende KI-Lösungen und verbinden sie mit Ihren bestehenden Systemen – von der Kundenkommunikation bis zu internen Prozessen.</p>
         <div class="cta-row">
-          <a href="#kontakt" class="btn-primary">
-            KI-Potenzial analysieren
-          </a>
-
-          <a href="#kontakt" class="btn-secondary">
-            Demo anfragen
-          </a>
+          <a href="#analyse" class="btn-primary">KI-Potenzial analysieren</a>
+          <a href="#kontakt" class="btn-secondary">Demo anfragen</a>
         </div>
-
-        <div class="scope-line">
-          Telefon · Website · Prozesse · Integrationen
-        </div>
+        <div class="scope-line">Kundenkommunikation · Prozessautomatisierung · Integration</div>
       </div>
 
-      <div>
-        <div class="device">
-
+      <div style="position:relative;">
+        <div style="position:absolute; inset:-30px; background:var(--signal-grad); opacity:0.18; filter:blur(50px); border-radius:40px; z-index:0;"></div>
+        <div class="device" style="position:relative; z-index:1;">
           <div class="toggle-row">
-            <button
-              class="toggle-btn active"
-              onclick="showDemo('phone', this)"
-            >
-              Telefon
-            </button>
-
-            <button
-              class="toggle-btn"
-              onclick="showDemo('chat', this)"
-            >
-              Website-Chat
-            </button>
+            <button class="toggle-btn active" onclick="showDemo('phone', this)">Telefon</button>
+            <button class="toggle-btn" onclick="showDemo('chat', this)">Website-Chat</button>
           </div>
-
           <div class="demo-panel active" id="demo-phone">
-
             <div class="chat-window">
-              <div class="bubble user">
-                Hallo, ich würde gerne einen Termin für nächste Woche buchen.
-              </div>
-
-              <div class="bubble ai">
-                Sehr gerne. Ich habe am Dienstag um 10:00 Uhr oder am Donnerstag um 14:00 Uhr einen freien Termin. Was passt Ihnen besser?
-              </div>
+              <div class="bubble user">Hallo, ich würde gerne einen Termin für nächste Woche buchen.</div>
+              <div class="bubble ai">Sehr gerne. Ich habe am Dienstag um 10:00 Uhr oder am Donnerstag um 14:00 Uhr einen freien Termin. Was passt Ihnen besser?</div>
             </div>
-
-            <div class="status-row">
-              <span class="pill">
-                <span class="dot"></span>
-                Termin wird vorbereitet
-              </span>
+            <div class="flow" style="justify-content:flex-start; margin-top:6px;">
+              <span class="node">Telefon</span><span class="arrow">→</span>
+              <span class="node">Anliegen erkannt</span><span class="arrow">→</span>
+              <span class="node">Kalender geprüft</span><span class="arrow">→</span>
+              <span class="node accent">Termin vorbereitet</span>
             </div>
-
           </div>
-
           <div class="demo-panel" id="demo-chat">
-
             <div class="chat-window">
-              <div class="bubble user">
-                Ich interessiere mich für eine Kfz-Versicherung. Können Sie mir helfen?
-              </div>
-
-              <div class="bubble ai">
-                Gerne. Ich stelle Ihnen kurz ein paar Fragen und kann Ihnen anschließend direkt einen Beratungstermin anbieten.
-              </div>
-
-              <div class="bubble user">
-                Okay.
-              </div>
-
-              <div class="bubble ai">
-                Geht es um ein neues Fahrzeug oder möchten Sie Ihre aktuelle Versicherung wechseln?
-              </div>
+              <div class="bubble user">Ich interessiere mich für eine Kfz-Versicherung. Können Sie mir helfen?</div>
+              <div class="bubble ai">Gerne. Ich stelle Ihnen kurz ein paar Fragen und kann Ihnen anschließend direkt einen Beratungstermin anbieten.</div>
+              <div class="bubble user">Okay.</div>
+              <div class="bubble ai">Geht es um ein neues Fahrzeug oder möchten Sie Ihre aktuelle Versicherung wechseln?</div>
             </div>
-
-            <div class="status-row">
-              <span class="pill">
-                <span class="dot"></span>
-                Anfrage wird bearbeitet
-              </span>
+            <div class="flow" style="justify-content:flex-start; margin-top:6px;">
+              <span class="node">Website-Chat</span><span class="arrow">→</span>
+              <span class="node">Anliegen erkannt</span><span class="arrow">→</span>
+              <span class="node">Terminbuchung</span><span class="arrow">→</span>
+              <span class="node accent">Termin vorbereitet</span>
             </div>
-
           </div>
-
         </div>
-
-        <p class="device-caption">
-          Ein Beispiel: Terminbuchung per Telefon oder Chat.
-        </p>
+        <p class="device-caption">Ein Beispiel: Terminbuchung per Telefon oder Chat.</p>
       </div>
-
     </div>
 
     <div class="wrap">
@@ -906,674 +270,592 @@
     </div>
   </section>
 
-
-  <!-- LÖSUNGEN -->
+  <!-- LÖSUNGEN — große alternierende Bereiche statt Karten -->
   <section id="loesungen">
     <div class="wrap">
+      <div class="eyebrow-text">Lösungen</div>
+      <h2 class="section-h">Wo KI in Ihrem Unternehmen Arbeit übernehmen kann.</h2>
+      <p class="section-sub">Von der Kundenkommunikation bis zu internen Abläufen: Wir setzen KI dort ein, wo wiederkehrende Arbeit automatisiert und bestehende Prozesse sinnvoll verbessert werden können.</p>
 
-      <div class="eyebrow-text">
-        Lösungen
-      </div>
-
-      <h2 class="section-h">
-        Wo KI in Ihrem Unternehmen Arbeit übernehmen kann.
-      </h2>
-
-      <p class="section-sub">
-        Von der Kundenkommunikation bis zu internen Abläufen: Wir setzen KI dort ein, wo wiederkehrende Arbeit automatisiert und bestehende Prozesse sinnvoll verbessert werden können.
-      </p>
-
-
-      <!-- 01 -->
       <div class="sol-area">
-
         <div class="sol-text">
-          <div class="sol-num">
-            01
-          </div>
-
-          <h3>
-            KI-Kundenkommunikation
-          </h3>
-
-          <p>
-            Anfragen beantworten, Informationen erfassen, Termine vereinbaren. Telefon und Website werden zu einem automatisierten Anfrageprozess.
-          </p>
+          <div class="sol-num">01</div>
+          <h3>KI-Kundenkommunikation</h3>
+          <p>Anfragen beantworten, Informationen erfassen, Termine vereinbaren. Telefon und Website werden zu einem automatisierten Anfrageprozess.</p>
         </div>
-
         <div class="sol-visual">
           <div class="flow">
-
             <div class="flow-branch">
-              <span class="node">
-                Telefon
-              </span>
-
-              <span class="node">
-                Website
-              </span>
+              <span class="node">Telefon</span>
+              <span class="node">Website</span>
             </div>
-
             <span class="arrow">→</span>
-
-            <span class="node accent">
-              KI
-            </span>
-
+            <span class="node accent">KI</span>
             <span class="arrow">→</span>
-
-            <span class="node">
-              Daten
-            </span>
-
+            <span class="node">Daten</span>
             <span class="arrow">→</span>
-
-            <span class="node">
-              Termin
-            </span>
-
+            <span class="node">Termin</span>
           </div>
         </div>
-
       </div>
 
-
-      <!-- 02 -->
       <div class="sol-area reverse">
-
         <div class="sol-text">
-          <div class="sol-num">
-            02
-          </div>
-
-          <h3>
-            KI-Prozessautomatisierung
-          </h3>
-
-          <p>
-            Wiederkehrende Arbeitsschritte automatisieren, Informationen verarbeiten und bestehende Systeme miteinander verbinden.
-          </p>
+          <div class="sol-num">02</div>
+          <h3>KI-Prozessautomatisierung</h3>
+          <p>Wiederkehrende Arbeitsschritte automatisieren, Informationen verarbeiten und bestehende Systeme miteinander verbinden – etwa damit Daten nicht mehr manuell zwischen CRM, Kalender oder anderen Anwendungen übertragen werden müssen.</p>
         </div>
-
         <div class="sol-visual">
           <div class="flow">
-
-            <span class="node">
-              Eingang
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node accent">
-              KI
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node">
-              Entscheidung
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node">
-              System
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node">
-              Aktion
-            </span>
-
+            <span class="node">Eingang</span><span class="arrow">→</span>
+            <span class="node accent">KI</span><span class="arrow">→</span>
+            <span class="node">Entscheidung</span><span class="arrow">→</span>
+            <span class="node">System</span><span class="arrow">→</span>
+            <span class="node">Aktion</span>
           </div>
         </div>
-
       </div>
 
-
-      <!-- 03 -->
       <div class="sol-area">
-
         <div class="sol-text">
-          <div class="sol-num">
-            03
-          </div>
-
-          <h3>
-            KI-Integration
-          </h3>
-
-          <p>
-            KI-Potenziale in bestehenden Prozessen identifizieren und gezielt umsetzen. Wir analysieren Ihre Abläufe, priorisieren geeignete Anwendungsfälle und entwickeln daraus eine konkrete Lösung.
-          </p>
+          <div class="sol-num">03</div>
+          <h3>KI-Integration</h3>
+          <p>KI-Potenziale in bestehenden Prozessen identifizieren und gezielt umsetzen. Wir analysieren Ihre Abläufe, priorisieren geeignete Anwendungsfälle und entwickeln daraus eine konkrete Lösung.</p>
         </div>
-
         <div class="sol-visual">
           <div class="flow">
-
-            <span class="node">
-              Analyse
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node">
-              Priorisierung
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node accent">
-              Umsetzung
-            </span>
-
-            <span class="arrow">→</span>
-
-            <span class="node">
-              Betrieb
-            </span>
-
+            <span class="node">Analyse</span><span class="arrow">→</span>
+            <span class="node">Priorisierung</span><span class="arrow">→</span>
+            <span class="node accent">Umsetzung</span><span class="arrow">→</span>
+            <span class="node">Betrieb</span>
           </div>
         </div>
-
       </div>
-
     </div>
   </section>
-
 
   <!-- BEISPIELPROZESS -->
-  <section
-    id="beispielprozess"
-    style="
-      background:var(--surface);
-      border-top:1px solid var(--line);
-      border-bottom:1px solid var(--line);
-    "
-  >
+  <section id="beispielprozess" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap" style="text-align:center;">
+      <div class="eyebrow-text" style="text-align:center;">Beispiel</div>
+      <h2 class="section-h" style="margin:0 auto 48px; text-align:center;">Ein Prozess. Automatisch verbunden.</h2>
 
-    <div
-      class="wrap"
-      style="text-align:center;"
-    >
-
-      <div
-        class="eyebrow-text"
-        style="text-align:center;"
-      >
-        Beispiel
+      <div class="process-flow process-mobile">
+        <div class="p-node">
+          <div class="p-label">Kundenanfrage</div>
+          <h4>Telefon oder Website</h4>
+        </div>
+        <div class="p-arrow">↓</div>
+        <div class="p-node accent">
+          <div class="p-label">KI</div>
+          <h4>Versteht &amp; beantwortet</h4>
+          <p>Erfasst relevante Informationen</p>
+        </div>
+        <div class="p-arrow">↓</div>
+        <div class="p-node">
+          <div class="p-label">Logik</div>
+          <h4>Was wird als Nächstes gebraucht?</h4>
+          <p>Termin · Mitarbeiter · weitere Information</p>
+        </div>
+        <div class="p-arrow">↓</div>
+        <div class="p-node">
+          <div class="p-label">Aktion</div>
+          <h4>Kalender · Team · System</h4>
+        </div>
+        <div class="p-arrow">↓</div>
+        <div class="p-node accent">
+          <div class="p-label">Ergebnis</div>
+          <h4>Termin gebucht, Team informiert</h4>
+        </div>
       </div>
 
-      <h2
-        class="section-h"
-        style="
-          margin:0 auto 48px;
-          text-align:center;
-        "
-      >
-        Ein Prozess. Automatisch verbunden.
-      </h2>
-
-
-      <div class="process-flow">
-
-        <div class="p-node">
-          <div class="p-label">
-            Kundenanfrage
-          </div>
-
-          <h4>
-            Telefon oder Website
-          </h4>
+      <div class="process-desktop">
+        <div class="pd-branch">
+          <div class="pd-node"><div class="pd-label">Anfrage</div><h5>Telefon</h5></div>
+          <div class="pd-node"><div class="pd-label">Anfrage</div><h5>Website</h5></div>
         </div>
-
-        <div class="p-arrow">
-          →
+        <span class="pd-arrow">→</span>
+        <div class="pd-node accent"><div class="pd-label">KI</div><h5>Versteht &amp; erfasst</h5></div>
+        <span class="pd-arrow">→</span>
+        <div class="pd-node"><div class="pd-label">Logik</div><h5>Termin? Mitarbeiter?</h5></div>
+        <span class="pd-arrow">→</span>
+        <div class="pd-branch">
+          <div class="pd-node"><div class="pd-label">Aktion</div><h5>Kalender</h5></div>
+          <div class="pd-node"><div class="pd-label">Aktion</div><h5>Team</h5></div>
         </div>
-
-
-        <div class="p-node accent">
-          <div class="p-label">
-            KI
-          </div>
-
-          <h4>
-            Versteht &amp; beantwortet
-          </h4>
-
-          <p>
-            Erfasst relevante Informationen
-          </p>
-        </div>
-
-        <div class="p-arrow">
-          →
-        </div>
-
-
-        <div class="p-node">
-          <div class="p-label">
-            Logik
-          </div>
-
-          <h4>
-            Nächsten Schritt bestimmen
-          </h4>
-
-          <p>
-            Termin · Mitarbeiter · weitere Information
-          </p>
-        </div>
-
-        <div class="p-arrow">
-          →
-        </div>
-
-
-        <div class="p-node">
-          <div class="p-label">
-            Aktion
-          </div>
-
-          <h4>
-            Kalender · E-Mail · Team
-          </h4>
-        </div>
-
-        <div class="p-arrow">
-          →
-        </div>
-
-
-        <div class="p-node accent">
-          <div class="p-label">
-            Ergebnis
-          </div>
-
-          <h4>
-            Termin gebucht, Team informiert
-          </h4>
-        </div>
-
+        <span class="pd-arrow">→</span>
+        <div class="pd-node accent"><div class="pd-label">Ergebnis</div><h5>Termin gebucht</h5></div>
       </div>
-
     </div>
   </section>
 
-
-  <!-- VORGEHEN -->
-  <section id="vorgehen">
-
+  <!-- AUTOMATISIERUNGSPOTENZIAL -->
+  <section id="fuerwen">
     <div class="wrap">
-
-      <div class="eyebrow-text">
-        Vorgehen
+      <div class="eyebrow-text">Automatisierungspotenzial</div>
+      <h2 class="section-h">Besonders sinnvoll bei wiederkehrenden Abläufen.</h2>
+      <p class="section-sub" style="margin-bottom:40px;">KI-Automatisierung ist besonders interessant, wenn regelmäßig ähnliche Anfragen, Informationen oder Arbeitsschritte verarbeitet werden.</p>
+      <div class="audience-grid">
+        <div class="audience-card">
+          <h4>Viele Kundenanfragen</h4>
+          <p>Telefon-, Website- oder Terminanfragen verursachen regelmäßig wiederkehrende Arbeit.</p>
+        </div>
+        <div class="audience-card">
+          <h4>Manuelle Datenverarbeitung</h4>
+          <p>Informationen werden wiederholt erfasst, sortiert oder zwischen Systemen übertragen.</p>
+        </div>
+        <div class="audience-card">
+          <h4>Wiederkehrende Arbeitsschritte</h4>
+          <p>Mitarbeiter führen regelmäßig ähnliche Aufgaben nach vergleichbaren Abläufen aus.</p>
+        </div>
+        <div class="audience-card">
+          <h4>Mehrere Systeme</h4>
+          <p>Informationen müssen zwischen Kalender, E-Mail, CRM oder anderen Anwendungen weitergegeben werden.</p>
+        </div>
       </div>
-
-      <h2 class="section-h">
-        Wie wir arbeiten.
-      </h2>
-
-
-      <div
-        class="approach-line"
-        style="margin-top:40px;"
-      >
-
-        <div class="a-step">
-
-          <div class="a-num">
-            01
-          </div>
-
-          <h4>
-            Analysieren
-          </h4>
-
-          <p>
-            Wir analysieren Ihre bestehenden Abläufe und identifizieren sinnvolle Automatisierungspotenziale.
-          </p>
-
-        </div>
-
-
-        <div class="a-step">
-
-          <div class="a-num">
-            02
-          </div>
-
-          <h4>
-            Entwickeln
-          </h4>
-
-          <p>
-            Wir entwickeln die passende KI-Lösung für den ausgewählten Prozess.
-          </p>
-
-        </div>
-
-
-        <div class="a-step">
-
-          <div class="a-num">
-            03
-          </div>
-
-          <h4>
-            Integrieren
-          </h4>
-
-          <p>
-            Die Lösung wird mit den benötigten Systemen und Abläufen verbunden.
-          </p>
-
-        </div>
-
-
-        <div class="a-step">
-
-          <div class="a-num">
-            04
-          </div>
-
-          <h4>
-            Verbessern
-          </h4>
-
-          <p>
-            Nach dem Start wird die Lösung anhand realer Nutzung weiter optimiert.
-          </p>
-
-        </div>
-
-      </div>
-
+      <p class="section-sub" style="margin-top:32px; margin-bottom:0; max-width:none;">Je häufiger und klarer ein Prozess abläuft, desto größer ist häufig sein Automatisierungspotenzial.</p>
     </div>
   </section>
 
+  <!-- ANWENDUNGSBEISPIELE -->
+  <section id="anwendungsbeispiele" style="background:var(--surface); border-top:1px solid rgba(0,0,0,0.07); border-bottom:1px solid rgba(0,0,0,0.07);">
+    <div class="wrap">
+      <div class="eyebrow-text">Anwendungsbeispiele</div>
+      <h2 class="section-h">So kann KI konkret Arbeit übernehmen.</h2>
+      <p class="section-sub" style="margin-bottom:40px;">Von einzelnen Aufgaben bis zu verbundenen Geschäftsprozessen.</p>
+      <div class="examples-grid">
+        <div class="sol-visual" style="flex-direction:column; align-items:flex-start; text-align:left; gap:14px;">
+          <h4 style="font-size:15px; font-weight:700; letter-spacing:-0.01em;">Kundenanfragen</h4>
+          <div class="flow" style="justify-content:flex-start;">
+            <span class="node">Anfrage</span><span class="arrow">→</span>
+            <span class="node">Anliegen verstehen</span><span class="arrow">→</span>
+            <span class="node">Informationen erfassen</span><span class="arrow">→</span>
+            <span class="node accent">Termin / Übergabe</span>
+          </div>
+        </div>
+        <div class="sol-visual" style="flex-direction:column; align-items:flex-start; text-align:left; gap:14px;">
+          <h4 style="font-size:15px; font-weight:700; letter-spacing:-0.01em;">Datenverarbeitung</h4>
+          <div class="flow" style="justify-content:flex-start;">
+            <span class="node">Information geht ein</span><span class="arrow">→</span>
+            <span class="node">Daten strukturieren</span><span class="arrow">→</span>
+            <span class="node">System aktualisieren</span><span class="arrow">→</span>
+            <span class="node accent">Folgeaktion</span>
+          </div>
+        </div>
+        <div class="sol-visual" style="flex-direction:column; align-items:flex-start; text-align:left; gap:14px;">
+          <h4 style="font-size:15px; font-weight:700; letter-spacing:-0.01em;">Lead-Prozesse</h4>
+          <div class="flow" style="justify-content:flex-start;">
+            <span class="node">Neue Anfrage</span><span class="arrow">→</span>
+            <span class="node">Daten erfassen</span><span class="arrow">→</span>
+            <span class="node">Informationen weitergeben</span><span class="arrow">→</span>
+            <span class="node accent">Team informiert</span>
+          </div>
+        </div>
+        <div class="sol-visual" style="flex-direction:column; align-items:flex-start; text-align:left; gap:14px;">
+          <h4 style="font-size:15px; font-weight:700; letter-spacing:-0.01em;">Interne Abläufe</h4>
+          <div class="flow" style="justify-content:flex-start;">
+            <span class="node">Information geht ein</span><span class="arrow">→</span>
+            <span class="node">KI verarbeitet Inhalt</span><span class="arrow">→</span>
+            <span class="node">Regel entscheidet</span><span class="arrow">→</span>
+            <span class="node accent">Nächster Schritt</span>
+          </div>
+        </div>
+      </div>
+      <p class="section-sub" style="margin-top:32px; margin-bottom:0; max-width:none;">Welche Abläufe sinnvoll automatisiert werden können, hängt von Ihren Prozessen, Daten und bestehenden Systemen ab.</p>
+    </div>
+  </section>
+
+  <!-- WARUM INTEGRATION -->
+  <section id="integration" style="background:var(--surface); border-top:1px solid rgba(0,0,0,0.07); border-bottom:1px solid rgba(0,0,0,0.07);">
+    <div class="wrap">
+      <div class="eyebrow-text">Integration</div>
+      <h2 class="section-h">Ein KI-Tool allein automatisiert noch keinen Prozess.</h2>
+      <p class="section-sub">Der eigentliche Nutzen entsteht, wenn KI zu Ihren Abläufen passt, die richtigen Informationen erhält und mit den benötigten Systemen verbunden wird.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card">
+          <div class="compare-label">KI-Tool allein</div>
+          <div class="compare-flow">
+            <div class="cnode">Frage</div>
+            <div class="cnode">Antwort</div>
+          </div>
+        </div>
+        <div class="compare-vs">vs.</div>
+        <div class="compare-card highlight">
+          <div class="compare-label">Integrierte KI</div>
+          <div class="compare-flow">
+            <div class="cnode">Anfrage verstehen</div>
+            <div class="cnode">Informationen verarbeiten</div>
+            <div class="cnode">Regeln berücksichtigen</div>
+            <div class="cnode">System nutzen</div>
+            <div class="cnode">Aktion auslösen</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="section-sub" style="margin-top:32px; margin-bottom:0; max-width:none;">Deshalb betrachten wir nicht nur das KI-Modell, sondern den gesamten Geschäftsprozess.</p>
+    </div>
+  </section>
+
+  <!-- VORGEHEN — minimalistische Linie -->
+  <section id="vorgehen">
+    <div class="wrap">
+      <div class="eyebrow-text">Vorgehen</div>
+      <h2 class="section-h">Wie wir arbeiten.</h2>
+      <div class="approach-line" style="margin-top:40px;">
+        <div class="a-step"><div class="a-num">01</div><h4>Analysieren</h4><p>Wir analysieren Ihre bestehenden Abläufe und identifizieren sinnvolle Automatisierungspotenziale.</p></div>
+        <div class="a-step"><div class="a-num">02</div><h4>Priorisieren</h4><p>Wir bewerten Nutzen, technische Machbarkeit und Aufwand.</p></div>
+        <div class="a-step"><div class="a-num">03</div><h4>Entwickeln</h4><p>Wir entwickeln die passende KI-Lösung für den ausgewählten Prozess.</p></div>
+        <div class="a-step"><div class="a-num">04</div><h4>Integrieren</h4><p>Die Lösung wird mit den benötigten Systemen und Abläufen verbunden.</p></div>
+        <div class="a-step"><div class="a-num">05</div><h4>Verbessern</h4><p>Nach dem Start wird die Lösung anhand realer Nutzung weiter optimiert.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KOSTEN -->
+  <section id="preise">
+    <div class="wrap">
+      <div class="eyebrow-text">Kosten</div>
+      <h2 class="section-h">Was kostet eine KI-Automatisierung?</h2>
+      <p class="section-sub" style="margin-bottom:40px;">Die Kosten richten sich nach dem zu automatisierenden Prozess, dem Umfang der Lösung und den benötigten Integrationen.</p>
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="price-tier">Einrichtung</div>
+          <p class="price-desc" style="margin-top:12px;">Analyse, Konzeption, Entwicklung und technische Integration der Lösung.</p>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Betrieb</div>
+          <p class="price-desc" style="margin-top:12px;">Laufende technische Bereitstellung sowie Nutzung der benötigten KI- und Automatisierungsdienste.</p>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Erweiterungen</div>
+          <p class="price-desc" style="margin-top:12px;">Zusätzliche Prozesse, Funktionen und Integrationen können später ergänzt werden.</p>
+        </div>
+      </div>
+      <p class="price-note">Nach der Analyse erhalten Sie ein transparentes Angebot mit klar definiertem Leistungsumfang.</p>
+    </div>
+  </section>
 
   <!-- FAQ -->
   <section id="faq">
-
     <div class="wrap">
+      <div class="eyebrow-text">Fragen</div>
+      <h2 class="section-h">Noch Fragen? Hier sind Antworten.</h2>
 
-      <div class="eyebrow-text">
-        Fragen
+      <div class="faq-card" style="margin-top:32px;">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Wie setzen sich die Kosten zusammen? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Die Kosten richten sich nach dem zu automatisierenden Prozess, dem Umfang der Lösung und den benötigten Integrationen. Nach der Analyse erhalten Sie eine konkrete Einschätzung und ein transparentes Angebot.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Was genau passiert bei der KI-Potenzialanalyse? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>In einem kurzen, kostenlosen Gespräch schauen wir uns Ihre aktuellen Abläufe an – zum Beispiel, wie Anfragen heute bearbeitet werden und wo manuell nachgearbeitet wird. Daraus zeigen wir Ihnen konkrete Ansatzpunkte, wo KI sinnvoll unterstützen kann, inklusive grober Einschätzung von Aufwand und Nutzen. Keine Verpflichtung.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Lässt sich die Lösung in unsere bestehenden Systeme integrieren? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Ja. Anbindung an Ihren Kalender und – je nach Bedarf – weitere Systeme ist möglich. Wir richten uns nach dem, was Sie bereits nutzen, statt Sie zum Wechsel zu zwingen.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn die KI eine Anfrage nicht beantworten kann? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Die KI kann in solchen Fällen an einen Mitarbeiter übergeben oder die Kontaktdaten für einen Rückruf aufnehmen.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Wie behalten wir die Kontrolle über die KI? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Sie legen fest, was die KI beantworten darf, wann sie an Mitarbeiter übergibt und wie Eskalationen laufen. Sie können Inhalte und Regeln jederzeit anpassen lassen.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Wie wird mit Daten und Datenschutz umgegangen? <span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Wir berücksichtigen Datenschutz bereits bei der technischen Konzeption und wählen Verarbeitung, Speicherung und eingesetzte Dienste passend zum jeweiligen Anwendungsfall.</p></div>
+        </div>
       </div>
-
-      <h2 class="section-h">
-        Noch Fragen? Hier sind Antworten.
-      </h2>
-
-
-      <div
-        class="faq-card"
-        style="margin-top:32px;"
-      >
-
-
-        <!-- FAQ 1 -->
-        <div class="faq-item">
-
-          <button
-            class="faq-q"
-            onclick="toggleFaq(this)"
-          >
-            Was genau passiert bei der KI-Potenzialanalyse?
-
-            <span class="faq-icon">
-              +
-            </span>
-          </button>
-
-          <div class="faq-a">
-
-            <p>
-              In einem kurzen, kostenlosen Gespräch betrachten wir Ihre aktuellen Abläufe und identifizieren konkrete Ansatzpunkte, an denen KI sinnvoll unterstützen oder Arbeit automatisieren kann. Sie erhalten eine erste Einschätzung zu sinnvollen Einsatzmöglichkeiten, Aufwand und Nutzen.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- FAQ 2 -->
-        <div class="faq-item">
-
-          <button
-            class="faq-q"
-            onclick="toggleFaq(this)"
-          >
-            Was passiert, wenn die KI eine Anfrage nicht beantworten kann?
-
-            <span class="faq-icon">
-              +
-            </span>
-          </button>
-
-          <div class="faq-a">
-
-            <p>
-              Für solche Fälle definieren wir klare Übergaben. Je nach Prozess kann die Anfrage an einen Mitarbeiter weitergegeben oder für einen späteren Rückruf strukturiert aufgenommen werden.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- FAQ 3 -->
-        <div class="faq-item">
-
-          <button
-            class="faq-q"
-            onclick="toggleFaq(this)"
-          >
-            Lässt sich die Lösung in unsere bestehenden Systeme integrieren?
-
-            <span class="faq-icon">
-              +
-            </span>
-          </button>
-
-          <div class="faq-a">
-
-            <p>
-              Ja. Wir prüfen die vorhandenen Systeme und integrieren die Lösung dort, wo technisch sinnvolle Schnittstellen vorhanden sind. Kalender und weitere bestehende Systeme können je nach Anwendungsfall angebunden werden.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- FAQ 4 -->
-        <div class="faq-item">
-
-          <button
-            class="faq-q"
-            onclick="toggleFaq(this)"
-          >
-            Wie behalten wir die Kontrolle über die KI?
-
-            <span class="faq-icon">
-              +
-            </span>
-          </button>
-
-          <div class="faq-a">
-
-            <p>
-              Gemeinsam legen wir fest, welche Aufgaben die KI übernehmen soll, welche Informationen sie verwenden darf und wann eine Übergabe an einen Mitarbeiter vorgesehen ist. Die Automatisierung wird an Ihren definierten Prozess angepasst.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- FAQ 5 -->
-        <div class="faq-item">
-
-          <button
-            class="faq-q"
-            onclick="toggleFaq(this)"
-          >
-            Wie berücksichtigen Sie Datenschutz?
-
-            <span class="faq-icon">
-              +
-            </span>
-          </button>
-
-          <div class="faq-a">
-
-            <p>
-              Wir berücksichtigen Datenschutz bereits bei der technischen Konzeption und wählen Verarbeitung, Speicherung und eingesetzte Dienste passend zum jeweiligen Anwendungsfall.
-            </p>
-
-          </div>
-
-        </div>
-
-
-      </div>
-
     </div>
   </section>
 
-
   <!-- FINAL CTA -->
-  <section id="kontakt">
-
+  <!-- KI-POTENZIAL ANALYSIEREN — QUALIFIZIERUNGSFRAGEN -->
+  <section id="analyse">
     <div class="wrap">
+      <div class="eyebrow-text" style="text-align:center;">KI-Potenzial analysieren</div>
+      <h2 class="section-h" style="margin:0 auto 12px; text-align:center; max-width:600px;">Ein paar kurze Fragen für Ihre erste Einschätzung.</h2>
+      <p class="section-sub" style="margin:0 auto 48px; text-align:center; max-width:560px;">So können wir uns gezielt vorbereiten und Ihnen im Gespräch direkt konkrete Ansatzpunkte zeigen, statt bei null anzufangen.</p>
 
-      <div class="final-cta">
+      <div class="analyse-card">
+        <form id="analyse-form">
 
-        <h2
-          class="display"
-          style="
-            font-size:clamp(28px,3.6vw,38px);
-          "
-        >
-          Wo kann KI in Ihrem Unternehmen sinnvoll Arbeit übernehmen?
-        </h2>
+          <div class="q-block">
+            <div class="q-label">Wo sehen Sie aktuell den größten Bedarf für KI-Unterstützung?</div>
+            <div class="q-options">
+              <button type="button" class="q-chip" data-group="bereich" data-branch="kommunikation" onclick="selectBereich(this)">Kundenkommunikation (Telefon/Website)</button>
+              <button type="button" class="q-chip" data-group="bereich" data-branch="prozesse" onclick="selectBereich(this)">Interne Prozesse & Datenverarbeitung</button>
+              <button type="button" class="q-chip" data-group="bereich" data-branch="vertrieb" onclick="selectBereich(this)">Vertrieb & CRM</button>
+              <button type="button" class="q-chip" data-group="bereich" data-branch="unklar" onclick="selectBereich(this)">Weiß ich noch nicht genau</button>
+            </div>
+          </div>
 
-        <p>
-          Wir betrachten Ihre bestehenden Abläufe, identifizieren sinnvolle Automatisierungspotenziale und geben Ihnen eine konkrete erste Einschätzung.
-        </p>
+          <div id="step2" style="display:none;">
 
-        <div
-          class="cta-row"
-          style="justify-content:center;"
-        >
+            <div id="branch-kommunikation" class="branch-block" style="display:none;">
+              <div class="q-block">
+                <div class="q-label">Über welchen Kanal kommen die meisten Anfragen rein?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-kommunikation-1" onclick="selectChip(this,false)">Telefon</button>
+                  <button type="button" class="q-chip" data-group="b-kommunikation-1" onclick="selectChip(this,false)">Website</button>
+                  <button type="button" class="q-chip" data-group="b-kommunikation-1" onclick="selectChip(this,false)">Beides gleichermaßen</button>
+                </div>
+              </div>
+              <div class="q-block">
+                <div class="q-label">Was passiert aktuell, wenn niemand sofort reagieren kann?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-kommunikation-2" data-score="0" onclick="selectChip(this,false)">Wir rufen später zurück</button>
+                  <button type="button" class="q-chip" data-group="b-kommunikation-2" data-score="6" onclick="selectChip(this,false)">Anfrage geht meist verloren</button>
+                  <button type="button" class="q-chip" data-group="b-kommunikation-2" data-score="3" onclick="selectChip(this,false)">Kunde wartet oft lange</button>
+                </div>
+              </div>
+            </div>
 
-          <a
-            href="mailto:kontakt@ki-komplettloesung.de"
-            class="btn-primary"
-          >
-            KI-Potenzial analysieren
-          </a>
+            <div id="branch-prozesse" class="branch-block" style="display:none;">
+              <div class="q-block">
+                <div class="q-label">Welche Art von Aufgaben wiederholt sich am häufigsten?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-prozesse-1" onclick="selectChip(this,false)">Daten erfassen & übertragen</button>
+                  <button type="button" class="q-chip" data-group="b-prozesse-1" onclick="selectChip(this,false)">Dokumente prüfen</button>
+                  <button type="button" class="q-chip" data-group="b-prozesse-1" onclick="selectChip(this,false)">Informationen zwischen Systemen weitergeben</button>
+                </div>
+              </div>
+              <div class="q-block">
+                <div class="q-label">Wie viele verschiedene Systeme sind daran typischerweise beteiligt?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-prozesse-2" data-score="0" onclick="selectChip(this,false)">1 System</button>
+                  <button type="button" class="q-chip" data-group="b-prozesse-2" data-score="4" onclick="selectChip(this,false)">2–3 Systeme</button>
+                  <button type="button" class="q-chip" data-group="b-prozesse-2" data-score="7" onclick="selectChip(this,false)">mehr als 3 Systeme</button>
+                </div>
+              </div>
+            </div>
 
-          <a
-            href="mailto:kontakt@ki-komplettloesung.de"
-            class="btn-secondary"
-            style="
-              background:transparent;
-              border-color:#3A3F4A;
-              color:#fff;
-            "
-          >
-            Demo anfragen
-          </a>
+            <div id="branch-vertrieb" class="branch-block" style="display:none;">
+              <div class="q-block">
+                <div class="q-label">Was kostet aktuell die meiste Zeit?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="6" onclick="selectChip(this,false)">CRM-Pflege</button>
+                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="5" onclick="selectChip(this,false)">Lead-Nachverfolgung</button>
+                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="4" onclick="selectChip(this,false)">Angebotserstellung</button>
+                  <button type="button" class="q-chip" data-group="b-vertrieb-1" data-score="5" onclick="selectChip(this,false)">Reporting</button>
+                </div>
+              </div>
+              <div class="q-block">
+                <div class="q-label">Nutzen Sie bereits ein CRM-System?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-vertrieb-2" onclick="selectChip(this,false)">Ja, aber unübersichtlich</button>
+                  <button type="button" class="q-chip" data-group="b-vertrieb-2" onclick="selectChip(this,false)">Ja, funktioniert gut</button>
+                  <button type="button" class="q-chip" data-group="b-vertrieb-2" onclick="selectChip(this,false)">Nein, noch nicht</button>
+                </div>
+              </div>
+            </div>
 
-        </div>
+            <div id="branch-unklar" class="branch-block" style="display:none;">
+              <div class="q-block">
+                <div class="q-label">Was beschreibt Ihre Situation am besten?</div>
+                <div class="q-options">
+                  <button type="button" class="q-chip" data-group="b-unklar-1" onclick="selectChip(this,false)">Viele manuelle Abläufe, unklar wo anfangen</button>
+                  <button type="button" class="q-chip" data-group="b-unklar-1" onclick="selectChip(this,false)">Erste Ideen vorhanden, brauche Priorisierung</button>
+                  <button type="button" class="q-chip" data-group="b-unklar-1" onclick="selectChip(this,false)">Erstmal verstehen, was überhaupt möglich ist</button>
+                </div>
+              </div>
+            </div>
 
-        <p class="final-note">
-          Unverbindlich · Keine langfristige Vertragsbindung
-        </p>
+            <div class="q-block">
+              <div class="q-label">Wie viel Zeit kostet das Ihr Team ungefähr pro Woche?</div>
+              <div class="q-options">
+                <button type="button" class="q-chip" data-group="zeitaufwand" data-score="20" onclick="selectChip(this,false)">unter 5 Stunden</button>
+                <button type="button" class="q-chip" data-group="zeitaufwand" data-score="45" onclick="selectChip(this,false)">5–15 Stunden</button>
+                <button type="button" class="q-chip" data-group="zeitaufwand" data-score="68" onclick="selectChip(this,false)">15–40 Stunden</button>
+                <button type="button" class="q-chip" data-group="zeitaufwand" data-score="88" onclick="selectChip(this,false)">über 40 Stunden</button>
+              </div>
+            </div>
 
+            <div id="result-box" style="display:none; background:var(--signal-soft); border-radius:18px; padding:24px 26px; margin-bottom:32px; text-align:center;">
+              <div style="font-size:13px; font-weight:600; color:var(--signal); margin-bottom:8px;">Geschätztes Automatisierungspotenzial</div>
+              <div id="result-label" style="font-size:24px; font-weight:700; letter-spacing:-0.01em; margin-bottom:8px;">–</div>
+              <div id="result-text" style="font-size:14px; color:var(--ink-soft); max-width:440px; margin:0 auto;"></div>
+              <div style="font-size:12.5px; color:var(--ink-faint); margin-top:12px;">Erste Orientierung auf Basis Ihrer Angaben. Die tatsächliche Machbarkeit hängt unter anderem von Prozessstruktur, Daten, Systemen und Anforderungen ab.</div>
+            </div>
+
+            <div class="q-block">
+              <div class="q-row">
+                <input class="q-input" id="q-name" type="text" placeholder="Name" autocomplete="name">
+                <input class="q-input" id="q-email" type="email" placeholder="E-Mail *" autocomplete="email" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;">Einschätzung anfordern</button>
+          </div>
+        </form>
+        <p class="analyse-note">Öffnet Ihr E-Mail-Programm mit den Angaben vorausgefüllt an kontakt@ki-komplettloesung.de. Kein Termin wird automatisch gebucht.</p>
       </div>
+    </div>
+  </section>
 
+  <section id="kontakt">
+    <div class="wrap">
+      <div class="final-cta">
+        <h2 class="display" style="font-size:clamp(28px,3.6vw,38px);">Wo kann KI in Ihrem Unternehmen sinnvoll Arbeit übernehmen?</h2>
+        <p>In einem kostenlosen Erstgespräch betrachten wir Ihre bestehenden Abläufe, identifizieren sinnvolle Automatisierungspotenziale und geben Ihnen eine konkrete erste Einschätzung.</p>
+        <div class="cta-row" style="justify-content:center;">
+          <a href="#analyse" class="btn-primary">KI-Potenzial analysieren</a>
+          <a href="mailto:kontakt@ki-komplettloesung.de" class="btn-secondary" style="background:transparent; border-color:#3A3F4A; color:#fff;">Demo anfragen</a>
+        </div>
+        <p class="final-note">Kostenlose Ersteinschätzung · Unverbindlich</p>
+      </div>
     </div>
   </section>
 
 </main>
 
-
 <footer>
-
   <div class="wrap footer-row">
-
-    <div
-      class="logo"
-      style="font-size:15px;"
-    >
-      KI-Komplettlösung
-    </div>
-
+    <div class="logo" style="font-size:15px;">KI-Komplettlösung</div>
     <div class="footer-links">
-
-      <a href="/impressum.html">
-        Impressum
-      </a>
-
-      <a href="/datenschutz.html">
-        Datenschutz
-      </a>
-
-      <a href="#kontakt">
-        Kontakt
-      </a>
-
+      <a href="/impressum.html">Impressum</a>
+      <a href="/datenschutz.html">Datenschutz</a>
+      <a href="#kontakt">Kontakt</a>
     </div>
-
-    <div
-      style="
-        font-size:13px;
-        color:var(--ink-faint);
-      "
-    >
-      © 2026 KI-Komplettlösung
-    </div>
-
+    <div style="font-size:13px; color:var(--ink-faint);">© 2026 KI-Komplettlösung</div>
   </div>
-
 </footer>
-
 
 <script>
   function showDemo(which, btn){
-    document
-      .querySelectorAll('.toggle-btn')
-      .forEach(button => button.classList.remove('active'));
-
+    document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-
-    document
-      .getElementById('demo-phone')
-      .classList.toggle('active', which === 'phone');
-
-    document
-      .getElementById('demo-chat')
-      .classList.toggle('active', which === 'chat');
+    document.getElementById('demo-phone').classList.toggle('active', which==='phone');
+    document.getElementById('demo-chat').classList.toggle('active', which==='chat');
   }
-
-
   function toggleFaq(btn){
     const item = btn.parentElement;
     const wasOpen = item.classList.contains('open');
-
-    document
-      .querySelectorAll('.faq-item')
-      .forEach(faq => faq.classList.remove('open'));
-
-    if(!wasOpen){
-      item.classList.add('open');
-    }
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen){ item.classList.add('open'); }
   }
+
+  let activeBranch = null;
+
+  function selectBereich(el){
+    document.querySelectorAll('.q-chip[data-group="bereich"]').forEach(c=>c.classList.remove('selected'));
+    el.classList.add('selected');
+
+    activeBranch = el.dataset.branch;
+    document.getElementById('step2').style.display = 'block';
+    document.querySelectorAll('.branch-block').forEach(b => b.style.display = 'none');
+    document.getElementById('branch-' + activeBranch).style.display = 'block';
+    updateScore();
+  }
+
+  function selectChip(el, multi){
+    const group = el.dataset.group;
+    if(!multi){
+      document.querySelectorAll('.q-chip[data-group="'+group+'"]').forEach(c=>c.classList.remove('selected'));
+      el.classList.add('selected');
+    } else {
+      el.classList.toggle('selected');
+    }
+    updateScore();
+  }
+
+  function updateScore(){
+    const zeitChip = document.querySelector('.q-chip[data-group="zeitaufwand"].selected');
+    const box = document.getElementById('result-box');
+
+    if(!zeitChip){
+      box.style.display = 'none';
+      return;
+    }
+
+    let score = parseInt(zeitChip.dataset.score, 10);
+
+    document.querySelectorAll('#step2 .branch-block .q-chip.selected').forEach(c => {
+      if(c.dataset.score){ score += parseInt(c.dataset.score, 10); }
+    });
+
+    score = Math.min(score, 92);
+
+    let label, text;
+    if(score < 30){
+      label = 'Geringes Potenzial';
+      text = 'Eine Automatisierung könnte einzelne Arbeitsschritte vereinfachen. Ob sich eine Umsetzung wirtschaftlich lohnt, sollte genauer geprüft werden.';
+    } else if(score < 55){
+      label = 'Prüfenswertes Potenzial';
+      text = 'In Ihrem beschriebenen Ablauf gibt es erste Hinweise auf sinnvolle Automatisierungsmöglichkeiten.';
+    } else if(score < 75){
+      label = 'Hohes Potenzial';
+      text = 'Ihr beschriebener Ablauf weist mehrere Merkmale auf, die sich grundsätzlich gut für Automatisierung eignen.';
+    } else {
+      label = 'Sehr hohes Prüfpotenzial';
+      text = 'Der beschriebene Ablauf enthält mehrere wiederkehrende und zeitintensive Arbeitsschritte. Eine detaillierte Analyse ist sinnvoll.';
+    }
+
+    document.getElementById('result-label').textContent = label;
+    document.getElementById('result-text').textContent = text;
+    box.dataset.internalScore = score;
+    box.style.display = 'block';
+  }
+
+  document.getElementById('analyse-form').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    function getSelected(group){
+      return Array.from(document.querySelectorAll('.q-chip[data-group="'+group+'"].selected')).map(c=>c.textContent).join(', ') || '—';
+    }
+
+    const name = document.getElementById('q-name').value || '—';
+    const email = document.getElementById('q-email').value;
+    const labelEl = document.getElementById('result-label');
+    const potenzial = (labelEl && labelEl.textContent !== '–')
+      ? labelEl.textContent
+      : 'nicht berechnet (zu wenig Angaben)';
+
+    if(!email){
+      document.getElementById('q-email').focus();
+      return;
+    }
+
+    let branchLines = [];
+    if(activeBranch === 'kommunikation'){
+      branchLines = [
+        'Kanal: ' + getSelected('b-kommunikation-1'),
+        'Bei Nichterreichbarkeit: ' + getSelected('b-kommunikation-2')
+      ];
+    } else if(activeBranch === 'prozesse'){
+      branchLines = [
+        'Häufigste Aufgabe: ' + getSelected('b-prozesse-1'),
+        'Beteiligte Systeme: ' + getSelected('b-prozesse-2')
+      ];
+    } else if(activeBranch === 'vertrieb'){
+      branchLines = [
+        'Größter Zeitfresser: ' + getSelected('b-vertrieb-1'),
+        'CRM-Status: ' + getSelected('b-vertrieb-2')
+      ];
+    } else if(activeBranch === 'unklar'){
+      branchLines = [
+        'Situation: ' + getSelected('b-unklar-1')
+      ];
+    }
+
+    const body = [
+      'Name: ' + name,
+      'E-Mail: ' + email,
+      '',
+      'Bereich mit größtem Bedarf: ' + getSelected('bereich'),
+      ...branchLines,
+      'Zeitaufwand pro Woche: ' + getSelected('zeitaufwand'),
+      'Geschätztes Automatisierungspotenzial: ' + potenzial
+    ].join('\n');
+
+    const mailto = 'mailto:kontakt@ki-komplettloesung.de'
+      + '?subject=' + encodeURIComponent('KI-Potenzial-Analyse angefragt – ' + name)
+      + '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailto;
+  });
 </script>
 
 </body>
